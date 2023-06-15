@@ -1,0 +1,60 @@
+<h1 matDialogTitle>{{data.title}}</h1>
+<form [formGroup]="itemForm" (ngSubmit)="submit()" >
+ 
+  
+ 
+      
+ <div fxLayout="row wrap" fxLayout.lt-sm="column">
+
+    
+    <div fxFlex="50" class="pr-16">
+        <mat-form-field appearance="outline" [style.width.cm]=10>
+          <input matInput 
+          name="reference" 
+          type="text"  
+          formControlName="reference" 
+          placeholder="Référence"  />
+        </mat-form-field>
+      </div>
+
+
+      <div fxFlex="50" class="pr-16">
+        <mat-form-field appearance="outline" [style.width.cm]=10>
+          <input matInput 
+          name="name" 
+          type="text"  
+          formControlName="name" 
+          placeholder="Titre"  />
+        </mat-form-field>
+      </div>
+     
+      <div fxFlex="50"  class="pb-16">
+        <mat-form-field appearance="outline" [style.width.cm]=10>
+        <mat-label>Jour de début</mat-label>
+        <mat-select formControlName="startDay" >
+          <mat-option *ngFor="let x of dayOfWeek " [value]="x">{{dayOfWeekMap[x]}}</mat-option>
+        </mat-select>
+        </mat-form-field>
+      </div>
+      
+      <div fxFlex="50"  class="pb-16">
+        <mat-form-field appearance="outline" [style.width.cm]=10>
+        <mat-label>Jour de fin</mat-label>
+        <mat-select formControlName="endDay" >
+          <mat-option *ngFor="let y of dayOfWeek " [value]="y">{{dayOfWeekMap[y]}}</mat-option>
+        </mat-select>
+        </mat-form-field>
+      </div>
+   
+        
+   
+        
+          <div fxFlex="100" class="mt-16">
+            <button mat-raised-button color="primary" >Enregistrer</button>
+            <span fxFlex></span>
+            <button mat-button color="warn" type="button" (click)="dialogRef.close(false)">Annuler</button>
+          </div>
+      </div>
+
+
+</form>

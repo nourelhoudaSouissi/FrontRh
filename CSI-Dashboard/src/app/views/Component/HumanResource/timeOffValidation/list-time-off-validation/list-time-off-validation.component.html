@@ -1,0 +1,212 @@
+<div class="m-4"  [@animate]="{value:'*',params:{y:'50px',delay:'200ms'}}">
+
+ 
+
+    <mat-card class="p-0" [@animate]="{ value: '*', params: { y: '50px', delay: '300ms' } }">
+      <div fxLayout="row wrap">
+        <div
+          fxFlex="50"
+          fxFlex.gt-sm="20"
+          fxFlex.sm="50"
+        >
+          <div class="text-center pt-16 pb-16 border-right-light">
+            <mat-icon class="text-green">show_chart</mat-icon>
+            <h4 class="m-0 ">5040</h4>
+            <small class="m-0 ">Page views</small>
+          </div>
+        </div>
+        <div
+          fxFlex="50"
+          fxFlex.gt-sm="20"
+          fxFlex.sm="50"
+        >
+          <div class="text-center pt-16 pb-16 border-right-light">
+            <mat-icon class="text-blue">cloud_download</mat-icon>
+            <h4 class="m-0 ">1200</h4>
+            <small class="m-0 ">Downloads</small>
+          </div>
+        </div>
+        <div
+          fxFlex="50"
+          fxFlex.gt-sm="20"
+          fxFlex.sm="50"
+        >
+          <div class="text-center pt-16 pb-16 border-right-light">
+            <mat-icon class="text-green">comment</mat-icon>
+            <h4 class="m-0 ">16420</h4>
+            <small class="m-0 ">Comments</small>
+          </div>
+        </div>
+        <div
+          fxFlex="50"
+          fxFlex.gt-sm="20"
+          fxFlex.sm="50"
+        >
+          <div class="text-center pt-16 pb-16 border-right-light">
+            <mat-icon class="text-blue">person</mat-icon>
+            <h4 class="m-0 ">3010</h4>
+            <small class="m-0 ">Profile views</small>
+          </div>
+        </div>
+        <div
+          fxFlex="50"
+          fxFlex.gt-sm="20"
+          fxFlex.sm="50"
+        >
+        
+          <div class="text-center pt-16 pb-16">
+            <mat-icon class="text-red">favorite</mat-icon>
+            <h4 class="m-0 ">4070</h4>
+            <small class="m-0 ">Likes</small>
+          </div>
+        </div>
+      </div>
+    </mat-card>
+     
+  
+       
+     <div style="clear: both;"></div>
+    
+    <mat-card class="p-0" [@animate]="{value:'*',params:{y:'50px',delay:'300ms'}}">
+      <mat-card-content class="p-0">
+        <mat-table [dataSource]="dataSource" matSort>
+         
+ 
+         <ng-container matColumnDef="leaveTypeName">
+           <mat-header-cell *matHeaderCellDef mat-sort-header>
+             <div class="column-header">
+               <div class="column-name">
+                 <span class="centered-text">Congé</span>
+               </div>
+               <div class="filter-input">
+                 <mat-form-field>
+                   <input matInput (input)="applyFilterr($event, 'leaveTypeName')" placeholder="Filtrer">
+                 </mat-form-field>
+               </div>
+             </div>
+           </mat-header-cell>
+           <mat-cell *matCellDef="let row" data-label="leaveTypeName">{{row.leaveTypeName}}</mat-cell>
+         </ng-container>
+         
+          
+     
+        
+         <ng-container matColumnDef="leaveType">
+           <mat-header-cell *matHeaderCellDef mat-sort-header>
+             <div class="column-header">
+               <div class="column-name">
+                 <span class="centered-text">Type de congé </span>
+               </div>
+               <div class="filter-input">
+                 <mat-form-field>
+                   <input matInput (input)="applyFilterr($event, 'leaveType')" placeholder="Filtrer">
+                 </mat-form-field>
+               </div>
+             </div>
+           </mat-header-cell>
+           <mat-cell *matCellDef="let row">
+           
+               {{ getLeaveType(row.leaveType).displayText }}
+             
+           
+           </mat-cell>
+         </ng-container>
+ 
+          <ng-container matColumnDef="startDate">
+           <mat-header-cell *matHeaderCellDef mat-sort-header>
+             <div class="column-header">
+               <div class="column-name">
+                 <span class="centered-text">Date début</span>
+               </div>
+               <div class="filter-input">
+                 <mat-form-field>
+                   <input matInput (input)="applyFilterr($event, 'startDate')" placeholder="Filtrer">
+                 </mat-form-field>
+               </div>
+             </div>
+           </mat-header-cell>
+           <mat-cell *matCellDef="let row" data-label="startDate">{{row.startDate | date:'dd-MM-yyyy'}}</mat-cell>
+         </ng-container>
+         
+         
+          <ng-container matColumnDef="endDate">
+           <mat-header-cell *matHeaderCellDef mat-sort-header>
+             <div class="column-header">
+               <div class="column-name">
+                 <span class="centered-text">Date Fin </span>
+               </div>
+               <div class="filter-input">
+                 <mat-form-field>
+                   <input matInput (input)="applyFilterr($event, 'endDate')" placeholder="Filtrer">
+                 </mat-form-field>
+               </div>
+             </div>
+           </mat-header-cell>
+           <mat-cell *matCellDef="let row" data-label="endDate">{{row.endDate | date:'dd-MM-yyyy'}}</mat-cell>
+         </ng-container>
+ 
+        
+ 
+         <ng-container matColumnDef="requestStatus" >
+          <mat-header-cell *matHeaderCellDef style="padding-left: 2cm;"> requestStatus
+           
+              </mat-header-cell>
+          <mat-cell *matCellDef="let row">
+            <button mat-button class="mat-button-as-chip"  [matMenuTriggerFor]="menu" [color]="getStatusColor(row.requestStatus).color" >{{ getStatusColor(row.requestStatus).displayText }}</button>
+              <mat-menu #menu="matMenu">
+                <button mat-menu-item (click)="changeOffereStatus('requestStatus.VALIDATED', row.id)">
+                  <mat-icon>cancel</mat-icon>
+                  <span>Validé</span>
+                </button>
+                <button mat-menu-item (click)="changeOffereStatus('requestStatus.REJECTED', row.id)">
+                  <mat-icon>cancel</mat-icon>
+                  <span>Rejeté</span>
+                </button>
+              </mat-menu>
+          </mat-cell>
+        </ng-container>
+          
+         <ng-container matColumnDef="requestInputDate">
+           <mat-header-cell *matHeaderCellDef mat-sort-header>
+             <div class="column-header">
+               <div class="column-name">
+                 <span class="centered-text">Date Saisie </span>
+               </div>
+               <div class="filter-input">
+                 <mat-form-field>
+                   <input matInput (input)="applyFilterr($event, 'requestInputDate')" placeholder="Filtrer">
+                 </mat-form-field>
+               </div>
+             </div>
+           </mat-header-cell>
+           <mat-cell *matCellDef="let row" data-label="requestInputDate">{{row.requestInputDate | date:'dd-MM-yyyy'}}</mat-cell>
+         </ng-container>
+ 
+     
+    
+          <ng-container matColumnDef="actions">
+            <mat-header-cell *matHeaderCellDef mat-sort-header> Actions </mat-header-cell>
+            <mat-cell *matCellDef="let row">
+              
+             
+              <button
+                mat-icon-button
+               
+                routerLinkActive="router-link-active"
+                color="primary"
+              >
+                <mat-icon>remove_red_eye </mat-icon>
+              </button>
+              
+            </mat-cell>
+          </ng-container>
+    
+          <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+          <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+        </mat-table>
+        <mat-paginator [pageSizeOptions]="[10, 25, 100]"></mat-paginator>
+    
+      </mat-card-content>
+    </mat-card>
+ 
+   </div>

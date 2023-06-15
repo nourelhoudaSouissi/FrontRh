@@ -1,0 +1,120 @@
+<h1 matDialogTitle>{{data.title}}</h1>
+<form [formGroup]="itemForm"  >
+
+  
+ 
+      
+ <div fxLayout="row wrap" fxLayout.lt-sm="column">
+
+  
+
+    <div fxFlex="50" class="pr-16">
+        <mat-form-field appearance="outline" [style.width.cm]=10>
+          <input matInput 
+          name="name" 
+          type="text"  
+          formControlName="name" 
+          placeholder="Titre"  />
+        </mat-form-field>
+    </div>
+    
+    <div class="mini-container" >
+        <mat-form-field [style.width.cm]=21.2 class="example-full-width" appearance="outline">
+         <mat-label>Commentaire</mat-label>
+         <textarea matInput placeholder="Veuillez saisir un commentaire." 
+         [formControl]="itemForm.controls['description']"></textarea>
+       </mat-form-field>
+     </div>
+    
+   
+          <mat-card class="custom-card">
+
+            <mat-card-title>
+              <div fxLayout="row" fxLayoutAlign="space-between" fxLayoutGap="8px">
+                <span>Ajouter Les Jour férier</span>
+                <button mat-icon-button (click)="toggleHolidaysForm()">
+                  <mat-icon>add</mat-icon>
+                </button>
+                
+              </div>
+            </mat-card-title>
+
+
+            <div formArrayName="holidays" *ngIf="showHolidaysForm">
+              <div *ngFor="let holiday of itemForm.get('holidays')?.controls; let i = index" [formGroupName]="i">
+
+             <div fxLayout="row wrap"   >
+               
+              <div fxFlex="50" class="pr-16">
+                <mat-form-field appearance="outline" [style.width.cm]=10>
+                  <input matInput 
+                  name="name" 
+                  type="text"  
+                  formControlName="name" 
+                  placeholder="Titre"  />
+                </mat-form-field>
+              </div>
+
+              <div fxFlex="50" class="pr-16">
+                <mat-form-field appearance="outline" [style.width.cm]=10>
+                  <mat-label>Date  début</mat-label>
+                  <input matInput name="startDate" formControlName="startDate" placeholder="Date début" [matDatepicker]="appDatepicker1" />
+                  <mat-datepicker-toggle matSuffix [for]="appDatepicker1"></mat-datepicker-toggle>
+                </mat-form-field>
+                <mat-datepicker #appDatepicker1></mat-datepicker>
+              </div>
+
+              <div fxFlex="50" class="pr-16">
+                <mat-form-field appearance="outline" [style.width.cm]=10>
+                  <mat-label>Date fin</mat-label>
+                  <input matInput name="endDate" formControlName="endDate"  placeholder="Date fin" [matDatepicker]="endDatePicker" />
+                  <mat-datepicker-toggle matSuffix [for]="endDatePicker"></mat-datepicker-toggle>
+                </mat-form-field>
+                <mat-datepicker #endDatePicker></mat-datepicker>
+              </div>
+        
+              <div fxFlex="50" class="pr-16">
+                <mat-form-field appearance="outline" [style.width.cm]=10>
+                  <input matInput 
+                  name="duration" 
+                  type="number"  
+                  formControlName="duration" 
+                  placeholder="Durée"  />
+                </mat-form-field>
+              </div>
+        
+              </div>
+
+                  <div class="button-container">
+
+                    <div>
+                      <button class="left-button" mat-icon-button (click)="removeHolidayFormGroup(i)">
+                        <mat-icon>delete</mat-icon>
+                      </button>
+                    </div>
+
+                    <div>
+                      <button class="right-button" mat-icon-button (click)="addHolidayFormGroup(i)">
+                        <mat-icon>add</mat-icon>
+                      </button>
+                    </div>
+
+                  </div>
+
+                  
+           </div>
+          
+        </div>
+                </mat-card>
+                
+
+                <div fxFlex="100" class="mt-16">
+                  <button mat-raised-button color="primary"  (click)="submit()">Enregistrer</button>
+                  <span fxFlex></span>
+                  <button mat-button color="warn" type="button" (click)="dialogRef.close(false)">Annuler</button>
+                </div>
+
+      </div>
+
+
+</form>
