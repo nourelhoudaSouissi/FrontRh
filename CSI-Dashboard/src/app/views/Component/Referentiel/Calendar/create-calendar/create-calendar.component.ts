@@ -156,7 +156,7 @@ export class CreateCalendarComponent implements OnInit {
 
   getWeekendId(){
     this.weekendService.getItems().subscribe((data :any )=>{
-      this.weekendUpdated = data
+      this.Weekend = data
     });
   }
  
@@ -196,21 +196,6 @@ export class CreateCalendarComponent implements OnInit {
   
 
       /* **************************** Weekend repeat Form add and remove **************************** */
-
-     /* addWeekendFormGroup(): void {
-        const weekendFormArray = this.itemForm.get('weekend') as FormArray;
-        
-        const weekendFormGroup = this.fbWeekend.group({
-          id: [''],
-          reference: ['', Validators.required],
-          name: ['', Validators.required],
-          startDay: [''],
-          endDay: [''],
-          activationStartDate: [''],
-          activationEndDate: ['']
-        });
-        weekendFormArray.push(weekendFormGroup);
-      }*/
 
       addWeekendFormGroup(): void {
         const weekendsFormArray = this.itemForm.get('weekendUpdateds') as FormArray;
@@ -257,22 +242,20 @@ export class CreateCalendarComponent implements OnInit {
       /* **************************** On select change weekend **************************** */
 
 
-onWeekendSelectedChange(value: any, i: number): void {
+    onWeekendSelectedChange(value: any, i: number): void {
         const weekendsFormArray = this.itemForm.get('weekendUpdateds') as FormArray;
         const weekendGroup = weekendsFormArray.at(i);
         if (weekendGroup) {
           const reference = weekendGroup.get('reference');
-          //const name = weekendGroup.get('name');
+          const name = weekendGroup.get('name');
           const startDay = weekendGroup.get('startDay');
           const endDay = weekendGroup.get('endDay');
-          const name = weekendGroup.get('name');
-          if (reference && name && endDay && startDay) {
+          if (reference  && endDay && startDay) {
             const selectedWeekend = this.Weekend.find(weekend => weekend.id === value);
             reference.setValue(selectedWeekend ? selectedWeekend.reference : '');
             startDay.setValue(selectedWeekend ? selectedWeekend.startDay : '');
             endDay.setValue(selectedWeekend ? selectedWeekend.endDay : '');
-            reference.setValue(selectedWeekend ? selectedWeekend.reference : '');
-            //name.setValue(selectedWeekend ? selectedWeekend.name : '');
+            name.setValue(selectedWeekend ? selectedWeekend.name : '');
           }
         }
       }
