@@ -3,6 +3,9 @@ import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@ang
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { MatTableDataSource } from '@angular/material/table';
 import { Holiday } from 'app/shared/models/holiday';
+import { WeekendService } from '../../Weekend/weekend.service';
+import { DayOfWeek, Weekend } from 'app/shared/models/weekend';
+import { WeekendUpdated } from 'app/shared/models/weekendUpdated';
 
 @Component({
   selector: 'app-create-calendar',
@@ -17,18 +20,27 @@ export class CreateCalendarComponent implements OnInit {
     endDate: new FormControl(''),
     duration: new FormControl('')
   });
-
+  Weekend: Weekend[] = [];
+  weekendUpdated: WeekendUpdated[] = [];
   public itemForm: FormGroup;
   public myHolidayForm: FormGroup;
   holidays: FormArray;
+  weekendUpdateds:FormArray;
   repeatForm: FormGroup;
+  repeatFormUpdated: FormGroup;
   public showHolidaysForm: boolean = false;
+  public showWeekendsForm: boolean = false;
+
+  dayOfWeek= Object.values(DayOfWeek)
 
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: any,
     private _formBuilder: FormBuilder,
+    private _formBuilderUpdated: FormBuilder,
+    private weekendService: WeekendService,
     public dialogRef: MatDialogRef<CreateCalendarComponent>,
-    private fb: FormBuilder
+    private fb: FormBuilder,
+    private fbWeekend: FormBuilder
   ) { }
 
   buildItemForm(item) {
@@ -36,10 +48,12 @@ export class CreateCalendarComponent implements OnInit {
     
       name: [item.name || '', Validators.required],
       description: [item.description || ''],
-      holidays: this.fb.array([]) // Initialize holidays as an empty FormArray
+      holidays: this.fb.array([]), // Initialize holidays as an empty FormArray
+      weekendUpdateds: this.fbWeekend.array([])
     });
 
     const holidaysFormArray = this.itemForm.get('holidays') as FormArray;
+    const weekendsFormArray = this.itemForm.get('weekendUpdateds') as FormArray;
     if (item.holidays && item.holidays.length > 0) {
       item.holidays.forEach((holiday) => {
         holidaysFormArray.push(this.fb.group({
@@ -59,6 +73,29 @@ export class CreateCalendarComponent implements OnInit {
         duration: ['']
       }));
     }
+    if (item.weekendUpdateds && item.weekendUpdateds.length > 0) {
+      item.weekendUpdateds.forEach((weekend) => {
+        weekendsFormArray.push(this.fbWeekend.group({
+          id: [weekend.id || ''],
+          reference: [weekend.reference || '', Validators.required],
+          name: [weekend.name || '', Validators.required],
+          startDay: [weekend.startDay || ''],
+          endDay: [weekend.endDay || ''],
+          activationStartDate: [weekend.activationStartDate || ''],
+          activationEndDate: [weekend.activationEndDate || ''],
+        }));
+      });
+    } else {
+      weekendsFormArray.push(this.fbWeekend.group({
+        id: [''],
+        reference: ['', Validators.required],
+        name: ['', Validators.required],
+        startDay: [''],
+        endDay: [''],
+        activationStartDate: [''],
+        activationEndDate: ['']
+      }));
+    }
   }
 
   ngOnInit(): void {
@@ -71,6 +108,18 @@ export class CreateCalendarComponent implements OnInit {
     this.repeatForm = this._formBuilder.group({
       repeatArray: this._formBuilder.array([this.createRepeatForm()])
     });
+/* **************************** Weekend repeat Form ************************** */
+
+    this.weekendService.getItems().subscribe((weekendUpdateds: any[]) => {
+      this.weekendUpdated = weekendUpdateds;
+    });
+
+    this.getWeekendId();
+
+    this.repeatFormUpdated = this.fb.group({
+      repeatArrayUpdated: this.fb.array([this.createRepeatFormUpdated()])
+    });
+
   }
 
   
@@ -82,6 +131,11 @@ export class CreateCalendarComponent implements OnInit {
 
   createRepeatForm(): FormGroup {
     return this._formBuilder.group({});
+  }
+
+
+  createRepeatFormUpdated(): FormGroup {
+    return this._formBuilderUpdated.group({});
   }
 
   get repeatFormGroup() {
@@ -100,6 +154,11 @@ export class CreateCalendarComponent implements OnInit {
     }
   }
 
+  getWeekendId(){
+    this.weekendService.getItems().subscribe((data :any )=>{
+      this.weekendUpdated = data
+    });
+  }
  
 
       submit() {
@@ -134,8 +193,90 @@ export class CreateCalendarComponent implements OnInit {
         }
         this.showHolidaysForm = true; // Always set showHolidaysForm to true
       }
-      
-      
+  
 
+      /* **************************** Weekend repeat Form add and remove **************************** */
+
+     /* addWeekendFormGroup(): void {
+        const weekendFormArray = this.itemForm.get('weekend') as FormArray;
+        
+        const weekendFormGroup = this.fbWeekend.group({
+          id: [''],
+          reference: ['', Validators.required],
+          name: ['', Validators.required],
+          startDay: [''],
+          endDay: [''],
+          activationStartDate: [''],
+          activationEndDate: ['']
+        });
+        weekendFormArray.push(weekendFormGroup);
+      }*/
+
+      addWeekendFormGroup(): void {
+        const weekendsFormArray = this.itemForm.get('weekendUpdateds') as FormArray;
+        weekendsFormArray.push(this.fbWeekend.group({
+          id: [''],
+          reference: ['', Validators.required],
+          name: ['', Validators.required],
+          startDay: [''],
+          endDay: [''],
+          activationStartDate: [''],
+          activationEndDate: ['']
+        }));
+      }
+   
+      toggleWeekendForm(): void {
+        const weekendsFormArray = this.itemForm.get('weekendUpdateds') as FormArray;
+        if (weekendsFormArray.length === 0) {
+          this.addWeekendFormGroup();
+        }
+        this.showWeekendsForm = true; // Always set showWeekendsForm to true
+      }
+      
+        
+      removeWeekendFormGroup(index: number): void {
+        const weekendFormArray = this.itemForm.get('weekendUpdateds') as FormArray;
+        weekendFormArray.removeAt(index);
+      }
+
+      get myWeekendArrayControls() {
+        return (this.myHolidayForm.get('weekendUpdateds') as FormArray).controls;
+      }
+
+      dayOfWeekMap = {
+        [DayOfWeek.MONDAY]:'Lundi',
+        [DayOfWeek.TUESDAY]:'Mardi',
+        [DayOfWeek.WEDNESDAY]:'Mercredi',
+        [DayOfWeek.THURSDAY]:'Jeudi',
+        [DayOfWeek.FRIDAY]:'Vendredi',
+        [DayOfWeek.SATURDAY]:'Samedi',
+        [DayOfWeek.SUNDAY]:'Dimanche'
+        
+      };
+    
+      /* **************************** On select change weekend **************************** */
+
+
+onWeekendSelectedChange(value: any, i: number): void {
+        const weekendsFormArray = this.itemForm.get('weekendUpdateds') as FormArray;
+        const weekendGroup = weekendsFormArray.at(i);
+        if (weekendGroup) {
+          const reference = weekendGroup.get('reference');
+          //const name = weekendGroup.get('name');
+          const startDay = weekendGroup.get('startDay');
+          const endDay = weekendGroup.get('endDay');
+          const name = weekendGroup.get('name');
+          if (reference && name && endDay && startDay) {
+            const selectedWeekend = this.Weekend.find(weekend => weekend.id === value);
+            reference.setValue(selectedWeekend ? selectedWeekend.reference : '');
+            startDay.setValue(selectedWeekend ? selectedWeekend.startDay : '');
+            endDay.setValue(selectedWeekend ? selectedWeekend.endDay : '');
+            reference.setValue(selectedWeekend ? selectedWeekend.reference : '');
+            //name.setValue(selectedWeekend ? selectedWeekend.name : '');
+          }
+        }
+      }
+    
+      
 
       }

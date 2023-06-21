@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Observable, catchError, throwError } from 'rxjs';
 import { Weekend } from 'app/shared/models/weekend';
+import { WeekendUpdated } from 'app/shared/models/weekendUpdated';
 
 @Injectable({
   providedIn: 'root'
@@ -10,9 +11,11 @@ export class WeekendService {
 
   private apiUrl = 'http://localhost:8084/rh/weekend';
 
+  private apiUrlUpdated = 'http://localhost:8084/rh/weekendUpdated';
+
   constructor(private http: HttpClient) { }
 
-
+//************************** Weekend **************************************************//
   // Get All Weekends
   getItems(): Observable<Weekend[]> {
     return this.http.get<Weekend[]>(this.apiUrl + '/getAllWeekends').pipe(
@@ -52,6 +55,50 @@ export class WeekendService {
       catchError(this.handleError)
     );
   }
+
+  //************************** Weekend Updated**************************************************//
+  // Get All Updated Weekends
+  getItemsUpdated(): Observable<WeekendUpdated[]> {
+    return this.http.get<WeekendUpdated[]>(this.apiUrlUpdated + '/getAllWeekendUpdated').pipe(
+      catchError(this.handleError)
+    );
+  }
+  
+  
+  // Get Updated Weekend by id
+  getItemUpdated(id: number): Observable<WeekendUpdated> {
+    const url = `${this.apiUrlUpdated+'/getWeekendUpdatedById'}/${id}`;
+    return this.http.get<WeekendUpdated>(url).pipe(
+      catchError(this.handleError)
+    );
+  }
+  
+   // DELETE Updated Weekend by id
+   deleteItemUpdated(id: number): Observable<WeekendUpdated> {
+    const url = `${this.apiUrlUpdated+'/delete'}/${id}`;
+    return this.http.delete<WeekendUpdated>(url).pipe(
+      catchError(this.handleError)
+    );
+  }
+  
+   // Add new Updated Weekend
+  addItemUpdated(weekendUpdated: any): Observable<any> {
+    return this.http.post<WeekendUpdated>(`${this.apiUrlUpdated+'/createWeekendUpdated'}`, weekendUpdated).pipe(
+      catchError(this.handleError)
+    );
+  }
+  
+  
+  // PUT an existing Updated Weekend
+  updateItemUpdated(id: number, weekendUpdated: WeekendUpdated): Observable<WeekendUpdated> {
+    const url = `${this.apiUrlUpdated +'/updateWeekendUpdated'}/${id}`;
+    return this.http.put<WeekendUpdated>(url, weekendUpdated).pipe(
+      catchError(this.handleError)
+    );
+  }
+
+
+
   
   private handleError(error: HttpErrorResponse) {
     if (error.error instanceof ErrorEvent) {

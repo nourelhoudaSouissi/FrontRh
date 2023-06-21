@@ -106,8 +106,120 @@
           
         </div>
                 </mat-card>
-                
 
+                <mat-card class="custom-card">
+
+                  <mat-card-title>
+                    <div fxLayout="row" fxLayoutAlign="space-between" fxLayoutGap="8px">
+                      <span>Ajouter Les Weekend</span>
+                      <button mat-icon-button (click)="toggleWeekendForm()">
+                        <mat-icon>add</mat-icon>
+                      </button>
+                      
+                    </div>
+                  </mat-card-title>
+      
+      
+                  <div formArrayName="weekendUpdateds" *ngIf="showWeekendsForm">
+                    <div *ngFor="let weekend of itemForm.get('weekendUpdateds')?.controls; let i = index" [formGroupName]="i">
+      
+                   <div fxLayout="row wrap"   >
+
+              
+
+                    <div  fxFlex="50"  class="pr-16" >
+                      <mat-form-field appearance="outline" [style.width.cm]=10>
+                        <mat-label>Weekend</mat-label>
+                          <mat-select formControlName="id" aria-placeholder="Titre du Weekend" (selectionChange)="onWeekendSelectedChange($event.value, i)">
+                            <mat-option *ngFor="let weekend of Weekend" [value]="weekend.id">{{weekend.name}}</mat-option>
+                          </mat-select>
+                      </mat-form-field>
+                    </div>
+              
+                     
+                    <div fxFlex="50" class="pr-16">
+                      <mat-form-field appearance="outline" [style.width.cm]=10>
+                        <input matInput 
+                        name="reference" 
+                        type="text"  
+                        formControlName="reference" 
+                        placeholder="reference"  />
+                      </mat-form-field>
+                    </div>
+
+                  <!--  <div fxFlex="50" class="pr-16">
+                      <mat-form-field appearance="outline" [style.width.cm]=10>
+                        <input matInput 
+                        name="name" 
+                        type="text"  
+                        formControlName="name" 
+                        placeholder="name"  />
+                      </mat-form-field>
+                    </div>-->
+      
+                    <div fxFlex="50"  class="pb-16">
+                      <mat-form-field appearance="outline" [style.width.cm]=10>
+                      <mat-label>Jour de début</mat-label>
+                      <mat-select formControlName="startDay" >
+                        <mat-option *ngFor="let x of dayOfWeek " [value]="x">{{dayOfWeekMap[x]}}</mat-option>
+                      </mat-select>
+                      </mat-form-field>
+                    </div>
+                    
+                    <div fxFlex="50"  class="pb-16">
+                      <mat-form-field appearance="outline" [style.width.cm]=10>
+                      <mat-label>Jour de fin</mat-label>
+                      <mat-select formControlName="endDay" >
+                        <mat-option *ngFor="let y of dayOfWeek " [value]="y">{{dayOfWeekMap[y]}}</mat-option>
+                      </mat-select>
+                      </mat-form-field>
+                    </div>
+                 
+                    <div fxFlex="50" class="pr-16">
+                      <mat-form-field appearance="outline" [style.width.cm]=10>
+                        <mat-label>activationStartDate</mat-label>
+                        <input matInput name="activationStartDate" formControlName="activationStartDate" placeholder="activationStartDate" [matDatepicker]="appDatepicker1" />
+                        <mat-datepicker-toggle matSuffix [for]="appDatepicker1"></mat-datepicker-toggle>
+                      </mat-form-field>
+                      <mat-datepicker #appDatepicker1></mat-datepicker>
+                    </div>
+      
+                    <div fxFlex="50" class="pr-16">
+                      <mat-form-field appearance="outline" [style.width.cm]=10>
+                        <mat-label>activationEndDate</mat-label>
+                        <input matInput name="activationEndDate" formControlName="activationEndDate"  placeholder="activationEndDate" [matDatepicker]="endDatePicker" />
+                        <mat-datepicker-toggle matSuffix [for]="endDatePicker"></mat-datepicker-toggle>
+                      </mat-form-field>
+                      <mat-datepicker #endDatePicker></mat-datepicker>
+                    </div>
+              
+                   
+              
+                    </div>
+      
+                        <div class="button-container">
+      
+                          <div>
+                            <button class="left-button" mat-icon-button (click)="removeWeekendFormGroup(i)">
+                              <mat-icon>delete</mat-icon>
+                            </button>
+                          </div>
+      
+                          <div>
+                            <button class="right-button" mat-icon-button (click)="addWeekendFormGroup(i)">
+                              <mat-icon>add</mat-icon>
+                            </button>
+                          </div>
+      
+                        </div>
+      
+                        
+                 </div>
+                
+              </div>
+                      </mat-card>
+
+                  
                 <div fxFlex="100" class="mt-16">
                   <button mat-raised-button color="primary"  (click)="submit()">Enregistrer</button>
                   <span fxFlex></span>
