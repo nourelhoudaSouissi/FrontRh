@@ -133,7 +133,8 @@ export class ListCalendarComponent implements OnInit {
  
   openPopUpView(row: any): void {
     const dialogRef = this.dialog.open(ViewCalendarComponent, {
-      width: '700px',
+      width: '900px',
+      height: '620px',
       data:  { calendar : row},
     });
     dialogRef.afterOpened().subscribe(() => {

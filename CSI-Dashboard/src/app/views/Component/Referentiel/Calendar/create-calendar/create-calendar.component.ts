@@ -47,6 +47,7 @@ export class CreateCalendarComponent implements OnInit {
     this.itemForm = this.fb.group({
     
       name: [item.name || '', Validators.required],
+      reference :[item.reference|| '', Validators.required],
       description: [item.description || ''],
       holidays: this.fb.array([]), // Initialize holidays as an empty FormArray
       weekendUpdateds: this.fbWeekend.array([])
@@ -77,8 +78,8 @@ export class CreateCalendarComponent implements OnInit {
       item.weekendUpdateds.forEach((weekend) => {
         weekendsFormArray.push(this.fbWeekend.group({
           id: [weekend.id || ''],
-          reference: [weekend.reference || '', Validators.required],
-          name: [weekend.name || '', Validators.required],
+          reference: [{ value: weekend.reference || '', disabled: true }],
+          name: [weekend.name || ''],
           startDay: [weekend.startDay || ''],
           endDay: [weekend.endDay || ''],
           activationStartDate: [weekend.activationStartDate || ''],
@@ -88,8 +89,8 @@ export class CreateCalendarComponent implements OnInit {
     } else {
       weekendsFormArray.push(this.fbWeekend.group({
         id: [''],
-        reference: ['', Validators.required],
-        name: ['', Validators.required],
+        reference: [''],
+        name: [''],
         startDay: [''],
         endDay: [''],
         activationStartDate: [''],
@@ -201,8 +202,8 @@ export class CreateCalendarComponent implements OnInit {
         const weekendsFormArray = this.itemForm.get('weekendUpdateds') as FormArray;
         weekendsFormArray.push(this.fbWeekend.group({
           id: [''],
-          reference: ['', Validators.required],
-          name: ['', Validators.required],
+          reference: [''],
+          name: [''],
           startDay: [''],
           endDay: [''],
           activationStartDate: [''],
@@ -251,7 +252,7 @@ export class CreateCalendarComponent implements OnInit {
           const startDay = weekendGroup.get('startDay');
           const endDay = weekendGroup.get('endDay');
           if (reference  && endDay && startDay) {
-            const selectedWeekend = this.Weekend.find(weekend => weekend.id === value);
+            const selectedWeekend = this.Weekend.find(weekend => weekend.name === value);
             reference.setValue(selectedWeekend ? selectedWeekend.reference : '');
             startDay.setValue(selectedWeekend ? selectedWeekend.startDay : '');
             endDay.setValue(selectedWeekend ? selectedWeekend.endDay : '');

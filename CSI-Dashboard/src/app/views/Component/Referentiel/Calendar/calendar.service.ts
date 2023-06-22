@@ -2,6 +2,8 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Observable, catchError, throwError } from 'rxjs';
 import { Calendar } from 'app/shared/models/calendar';
+import { WeekendUpdated } from 'app/shared/models/weekendUpdated';
+import { Holiday } from 'app/shared/models/holiday';
 
 @Injectable({
   providedIn: 'root'
@@ -48,6 +50,20 @@ addItem(weekend: any): Observable<any> {
 updateItem(id: number, weekend: Calendar): Observable<Calendar> {
   const url = `${this.apiUrl +'/updateCalendar'}/${id}`;
   return this.http.put<Calendar>(url, weekend).pipe(
+    catchError(this.handleError)
+  );
+}
+
+getItemWeekends(id: number): Observable<WeekendUpdated[]> {
+  const url = `${this.apiUrl}/${id}/getCalendarWeekends`;
+  return this.http.get<WeekendUpdated[]>(url).pipe(
+    catchError(this.handleError)
+  );
+}
+
+getItemHolidays(id: number): Observable<Holiday[]> {
+  const url = `${this.apiUrl}/${id}/getCalendarHolidays`;
+  return this.http.get<Holiday[]>(url).pipe(
     catchError(this.handleError)
   );
 }

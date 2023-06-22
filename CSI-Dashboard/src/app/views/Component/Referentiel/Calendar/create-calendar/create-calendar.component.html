@@ -1,8 +1,14 @@
-<h1 matDialogTitle>{{data.title}}</h1>
-<form [formGroup]="itemForm"  >
 
-  
- 
+<mat-toolbar matDialogTitle class="mat-primary m-0">
+  <div fxFlex fxLayout="row" fxLayoutAlign="space-between center">
+    <span class="title dialog-title">{{data.title}}</span>
+    <button mat-icon-button (click)="dialogRef.close()" aria-label="Close dialog">
+      <mat-icon>close</mat-icon>
+    </button>
+  </div>
+</mat-toolbar>
+
+<form [formGroup]="itemForm"  >
       
  <div fxLayout="row wrap" fxLayout.lt-sm="column">
 
@@ -19,7 +25,7 @@
     </div>
     
     <div class="mini-container" >
-        <mat-form-field [style.width.cm]=21.2 class="example-full-width" appearance="outline">
+        <mat-form-field [style.width.cm]=22.2 class="example-full-width" appearance="outline">
          <mat-label>Commentaire</mat-label>
          <textarea matInput placeholder="Veuillez saisir un commentaire." 
          [formControl]="itemForm.controls['description']"></textarea>
@@ -123,15 +129,15 @@
                   <div formArrayName="weekendUpdateds" *ngIf="showWeekendsForm">
                     <div *ngFor="let weekend of itemForm.get('weekendUpdateds')?.controls; let i = index" [formGroupName]="i">
       
-                   <div fxLayout="row wrap"   >
+                   <div fxLayout="row wrap" >
 
               
 
                     <div  fxFlex="50"  class="pr-16" >
                       <mat-form-field appearance="outline" [style.width.cm]=10>
                         <mat-label>Weekend</mat-label>
-                          <mat-select formControlName="id" aria-placeholder="Titre du Weekend" (selectionChange)="onWeekendSelectedChange($event.value, i)">
-                            <mat-option *ngFor="let weekend of Weekend" [value]="weekend.id">{{weekend.name}}</mat-option>
+                          <mat-select formControlName="name" aria-placeholder="Titre du Weekend" (selectionChange)="onWeekendSelectedChange($event.value, i)">
+                            <mat-option *ngFor="let weekend of Weekend" [value]="weekend.name">{{weekend.name}}</mat-option>
                           </mat-select>
                       </mat-form-field>
                     </div>
@@ -143,25 +149,17 @@
                         name="reference" 
                         type="text"  
                         formControlName="reference" 
-                        placeholder="reference"  />
+                        placeholder="Référence"
+                        [readonly]="true"  />
                       </mat-form-field>
                     </div>
 
-                <!--  <div fxFlex="50" class="pr-16">
-                      <mat-form-field appearance="outline" [style.width.cm]=10>
-                        <input matInput 
-                        name="name" 
-                        type="text"  
-                        formControlName="name" 
-                        placeholder="name"  />
-                      </mat-form-field>
-                    </div>-->
       
                     <div fxFlex="50"  class="pb-16">
-                      <mat-form-field appearance="outline" [style.width.cm]=10>
+                      <mat-form-field appearance="outline" [style.width.cm]=10  >
                       <mat-label>Jour de début</mat-label>
-                      <mat-select formControlName="startDay" >
-                        <mat-option *ngFor="let x of dayOfWeek " [value]="x">{{dayOfWeekMap[x]}}</mat-option>
+                      <mat-select formControlName="startDay"  [disabled]="true">
+                        <mat-option *ngFor="let x of dayOfWeek " [value]="x" >{{dayOfWeekMap[x]}}</mat-option>
                       </mat-select>
                       </mat-form-field>
                     </div>
@@ -169,7 +167,7 @@
                     <div fxFlex="50"  class="pb-16">
                       <mat-form-field appearance="outline" [style.width.cm]=10>
                       <mat-label>Jour de fin</mat-label>
-                      <mat-select formControlName="endDay" >
+                      <mat-select formControlName="endDay"   [disabled]="true">
                         <mat-option *ngFor="let y of dayOfWeek " [value]="y">{{dayOfWeekMap[y]}}</mat-option>
                       </mat-select>
                       </mat-form-field>
@@ -177,8 +175,8 @@
                  
                     <div fxFlex="50" class="pr-16">
                       <mat-form-field appearance="outline" [style.width.cm]=10>
-                        <mat-label>activationStartDate</mat-label>
-                        <input matInput name="activationStartDate" formControlName="activationStartDate" placeholder="activationStartDate" [matDatepicker]="appDatepicker1" />
+                        <mat-label>Date de début</mat-label>
+                        <input matInput name="activationStartDate" formControlName="activationStartDate" placeholder="Date de début" [matDatepicker]="appDatepicker1" />
                         <mat-datepicker-toggle matSuffix [for]="appDatepicker1"></mat-datepicker-toggle>
                       </mat-form-field>
                       <mat-datepicker #appDatepicker1></mat-datepicker>
@@ -186,8 +184,8 @@
       
                     <div fxFlex="50" class="pr-16">
                       <mat-form-field appearance="outline" [style.width.cm]=10>
-                        <mat-label>activationEndDate</mat-label>
-                        <input matInput name="activationEndDate" formControlName="activationEndDate"  placeholder="activationEndDate" [matDatepicker]="endDatePicker" />
+                        <mat-label>Date de fin</mat-label>
+                        <input matInput name="activationEndDate" formControlName="activationEndDate"  placeholder="Date de fin" [matDatepicker]="endDatePicker" />
                         <mat-datepicker-toggle matSuffix [for]="endDatePicker"></mat-datepicker-toggle>
                       </mat-form-field>
                       <mat-datepicker #endDatePicker></mat-datepicker>
