@@ -70,7 +70,41 @@
     <mat-card class="p-0" [@animate]="{value:'*',params:{y:'50px',delay:'300ms'}}">
       <mat-card-content class="p-0">
         <mat-table [dataSource]="dataSource" matSort>
-         
+
+          
+          <ng-container matColumnDef="employeeName">
+            <mat-header-cell *matHeaderCellDef mat-sort-header>
+              <div class="column-header">
+                <div class="column-name">
+                  <span class="centered-text">Employee Name</span>
+                </div>
+                <div class="filter-input">
+                  <mat-form-field>
+                    <input matInput (input)="applyFilter($event, 'employeeName')" placeholder="Filter">
+                  </mat-form-field>
+                </div>
+              </div>
+            </mat-header-cell>
+            <mat-cell *matCellDef="let element">{{ element.employeeFirstName }} {{ element.employeeLastName }}</mat-cell>
+          </ng-container>
+          
+          <ng-container matColumnDef="dates">
+            <mat-header-cell *matHeaderCellDef mat-sort-header>
+              <div class="column-header">
+                <div class="column-name">
+                  <span class="centered-text">Début/ Fin</span>
+                </div>
+                <div class="filter-input">
+                  <mat-form-field>
+                    <input matInput (input)="applyFilter($event, 'dates')" placeholder="Filter">
+                  </mat-form-field>
+                </div>
+              </div>
+            </mat-header-cell>
+           <!--<mat-cell *matCellDef="let element">{{ formatDate(element.startDate)}} / {{formatDate(element.endDate) }}</mat-cell>--> 
+            <mat-cell *matCellDef="let element">{{ element.startDate}} / {{element.endDate }}</mat-cell>
+  
+          </ng-container>
  
          <ng-container matColumnDef="leaveTypeName">
            <mat-header-cell *matHeaderCellDef mat-sort-header>
@@ -112,39 +146,7 @@
            </mat-cell>
          </ng-container>
  
-          <ng-container matColumnDef="startDate">
-           <mat-header-cell *matHeaderCellDef mat-sort-header>
-             <div class="column-header">
-               <div class="column-name">
-                 <span class="centered-text">Date début</span>
-               </div>
-               <div class="filter-input">
-                 <mat-form-field>
-                   <input matInput (input)="applyFilterr($event, 'startDate')" placeholder="Filtrer">
-                 </mat-form-field>
-               </div>
-             </div>
-           </mat-header-cell>
-           <mat-cell *matCellDef="let row" data-label="startDate">{{row.startDate | date:'dd-MM-yyyy'}}</mat-cell>
-         </ng-container>
-         
-         
-          <ng-container matColumnDef="endDate">
-           <mat-header-cell *matHeaderCellDef mat-sort-header>
-             <div class="column-header">
-               <div class="column-name">
-                 <span class="centered-text">Date Fin </span>
-               </div>
-               <div class="filter-input">
-                 <mat-form-field>
-                   <input matInput (input)="applyFilterr($event, 'endDate')" placeholder="Filtrer">
-                 </mat-form-field>
-               </div>
-             </div>
-           </mat-header-cell>
-           <mat-cell *matCellDef="let row" data-label="endDate">{{row.endDate | date:'dd-MM-yyyy'}}</mat-cell>
-         </ng-container>
- 
+      
         
  
          <ng-container matColumnDef="requestStatus" >

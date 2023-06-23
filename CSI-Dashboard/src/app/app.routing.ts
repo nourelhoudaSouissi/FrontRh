@@ -97,11 +97,11 @@ export const rootRouterConfig: Routes = [
         loadChildren: () => import('./views/app-inbox/app-inbox.module').then(m => m.AppInboxModule),
         data: { title: 'Inbox', breadcrumb: 'INBOX'}
       },
-      {
+    /*  {
         path: 'calendar',
         loadChildren: () => import('./views/app-calendar/app-calendar.module').then(m => m.AppCalendarModule),
         data: { title: 'Calendar', breadcrumb: 'CALENDAR'}
-      },
+      },*/
       {
         path: 'chat',
         loadChildren: () => import('./views/app-chats/app-chats.module').then(m => m.AppChatsModule),
@@ -251,6 +251,7 @@ export const rootRouterConfig: Routes = [
         loadChildren: () => import('./views/Component/Referentiel/Calendar/calendar.module').then(m => m.CalendarModule),
         data: { title: 'Calendrier', breadcrumb: 'Calendrier'}
       }
+   
 
 
       

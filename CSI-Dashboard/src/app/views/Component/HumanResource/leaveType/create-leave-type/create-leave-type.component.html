@@ -9,6 +9,7 @@
     
     <div fxFlex="50" class="pr-16">
         <mat-form-field appearance="outline" [style.width.cm]=10>
+          <mat-label>Titre</mat-label>
           <input matInput 
           name="name" 
           type="text"  
@@ -22,7 +23,7 @@
         <mat-form-field appearance="outline" [style.width.cm]=10>
         <mat-label>Type de congé</mat-label>
         <mat-select formControlName="timeOffType" >
-          <mat-option *ngFor="let x of timeOffType " [value]="x">{{x}}</mat-option>
+          <mat-option *ngFor="let x of timeOffType " [value]="x">{{timeOffTypeMap[x]}}</mat-option>
         </mat-select>
         </mat-form-field>
       </div>
@@ -31,11 +32,12 @@
 
       <div fxFlex="50" class="pr-16">
         <mat-form-field appearance="outline" [style.width.cm]=10>
+          <mat-label>Nombre de jour</mat-label>
           <input matInput 
           name="duration" 
           type="number"  
           formControlName="duration" 
-          placeholder="Durée"  />
+          placeholder="Nombre de jour"  />
         </mat-form-field>
       </div>
         

@@ -40,7 +40,13 @@ export class CreateLeaveTypeComponent implements OnInit {
     console.log(this.itemForm.value)
     this.dialogRef.close(this.itemForm.value)
   }
-
+  timeOffTypeMap = {
+    [TimeOffType.UNPAIED_TIME_OFF]:'Congés sans solde',
+    [TimeOffType.PAID_LEAVE]:'Congés payé',
+    [TimeOffType.SICKNESS_LEAVE]:'Congés de maladie',
+    [TimeOffType.SPECIAL_PAID_LEAVE]:'Congés spécial payé',
+    [TimeOffType.OTHER]:'Autre'   
+  };
 
 
 }

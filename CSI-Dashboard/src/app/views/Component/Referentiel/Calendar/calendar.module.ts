@@ -32,6 +32,7 @@ import { ListCalendarComponent } from './list-calendar/list-calendar.component';
 import { CreateCalendarComponent } from './create-calendar/create-calendar.component';
 import { ViewCalendarComponent } from './view-calendar/view-calendar.component';
 import { CalendarRoutes } from './calendar.routing';
+import { CalendarService } from './calendar.service';
 
 
 
@@ -45,10 +46,9 @@ import { CalendarRoutes } from './calendar.routing';
       CreateCalendarComponent,
       ViewCalendarComponent
   ],
-
+  providers : [CalendarService],
   imports: [
     CommonModule,
-  
     ReactiveFormsModule,
     FlexLayoutModule,
     MatInputModule,

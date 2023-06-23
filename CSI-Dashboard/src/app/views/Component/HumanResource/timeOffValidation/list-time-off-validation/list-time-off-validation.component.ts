@@ -59,7 +59,7 @@ export class ListTimeOffValidationComponent implements OnInit {
   }
 
   getDisplayedColumns() {
-    return ['leaveTypeName','leaveType', 'startDate','endDate', 'requestStatus',  'requestInputDate','actions'];
+    return ['employeeName','dates','leaveTypeName','leaveType', 'requestStatus',  'requestInputDate','actions'];
   }
   
   getItems() {    
@@ -100,12 +100,49 @@ changeOffereStatus(requestStatus: string, timeOffId: number): void {
     let updateObservable: Observable<any>;
     switch (requestStatus) {
       case 'requestStatus.VALIDATED':
-        updateObservable = this.timeOffValidationService.updateStatusToValidatedById(timeOffId);
-        this.getItems();
+        this.confirmService.confirm({ message: 'Êtes-vous sûr de vouloir valider cette demande de congé ?' })
+        .subscribe((res) => {
+          if (res) {
+            this.loader.open('Validation Congé');
+            this.timeOffValidationService.updateStatusToValidatedById(timeOffId)
+              .subscribe(
+                (data: any) => {
+                  this.dataSource = data;
+                  this.loader.close();
+                  this.snack.open('Congé validé!', 'OK', { duration: 4000 });
+                  this.getItems();
+                },
+                (error) => {
+                  console.error('Erreur changement de status:', error);
+                }
+              );
+          }
+        });
+
+       // updateObservable = this.timeOffValidationService.updateStatusToValidatedById(timeOffId);
+      //  this.getItems();
         break;
       case 'requestStatus.REJECTED':
-        updateObservable = this.timeOffValidationService.updateStatusToRejectedById(timeOffId);
-        this.getItems();
+        this.confirmService.confirm({ message: 'Êtes-vous sûr de vouloir refuser cette demande de congé ?' })
+        .subscribe((res) => {
+          if (res) {
+            this.loader.open('Validation Congé');
+            this.timeOffValidationService.updateStatusToRejectedById(timeOffId)
+              .subscribe(
+                (data: any) => {
+                  this.dataSource = data;
+                  this.loader.close();
+                  this.snack.open('Congé  refusé!', 'OK', { duration: 4000 });
+                  this.getItems();
+                },
+                (error) => {
+                  console.error('Erreur changement de status:', error);
+                }
+              );
+          }
+        });
+      //  updateObservable = this.timeOffValidationService.updateStatusToRejectedById(timeOffId);
+      // this.getItems();
         break;
       
       default:

@@ -204,9 +204,9 @@ export class CreateTimeOffComponent implements OnInit {
   
 
    timeOffPeriodTypeMap = {
-    [TimeOffPeriodType.QUARTER_DAY]:'Un quart de jour',
-    [TimeOffPeriodType.HALF_DAY]:'Une demi journée',
-    [TimeOffPeriodType.FULL_DAY]:'Une journée'
+    [TimeOffPeriodType.QUARTER_DAY]:'Quart de jour',
+    [TimeOffPeriodType.HALF_DAY]:'Demi journée',
+    [TimeOffPeriodType.FULL_DAY]:'Jours'
     
   };
 

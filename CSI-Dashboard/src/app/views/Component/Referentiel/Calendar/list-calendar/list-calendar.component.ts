@@ -10,7 +10,6 @@ import { Calendar } from 'app/shared/models/calendar';
 import { AppConfirmService } from 'app/shared/services/app-confirm/app-confirm.service';
 import { AppLoaderService } from 'app/shared/services/app-loader/app-loader.service';
 import { CreateCalendarComponent } from '../create-calendar/create-calendar.component';
-import { ViewCalendarComponent } from '../view-calendar/view-calendar.component';
 
 @Component({
   selector: 'app-list-calendar',
@@ -130,10 +129,10 @@ export class ListCalendarComponent implements OnInit {
     };
   }
 
- 
+ /*
   openPopUpView(row: any): void {
     const dialogRef = this.dialog.open(ViewCalendarComponent, {
-      width: '900px',
+      width: '1000px',
       height: '620px',
       data:  { calendar : row},
     });
@@ -147,6 +146,6 @@ export class ListCalendarComponent implements OnInit {
       console.error('An error occurred while opening the dialog:', error);
       // Handle the error appropriately (e.g., display an error message)
     });
-  }
+  }*/
 
 }

@@ -19,23 +19,26 @@ export class ViewCalendarComponent implements OnInit {
 
   public displayedColumnsWeekends: any;
   public displayedColumnsHolidays: any;
+  
 
   public dataSourceWeekends: MatTableDataSource<WeekendUpdated>;
   public dataSourceHolidays: MatTableDataSource<Holiday>;
+ 
 
   public weekends : WeekendUpdated[];
   public holidays : Holiday[];     
 
   constructor(
     private calendarService : CalendarService,
-    private dialog: MatDialogRef<ViewCalendarComponent>,
-    @Inject(MAT_DIALOG_DATA) private data: any,
-    private route : ActivatedRoute) { 
+    private route : ActivatedRoute,
+    ) { 
       this.dataSourceWeekends = new MatTableDataSource<WeekendUpdated>([]);
       this.dataSourceHolidays = new MatTableDataSource<Holiday>([]);
+
     }
 
 
+  
     getDisplayedColumnsHolidays() {
       return ['number','name','startDate','endDate','duration'];
     }
@@ -45,14 +48,29 @@ export class ViewCalendarComponent implements OnInit {
 
    
     ngOnInit(): void {
-      const data = this.data;
-      this.calendar= data.calendar;
+      this.id = this.route.snapshot.params['iiid'];   
+      this.getCalendar();
+      this.getHolidays();
+      this.getWeekend();
       this.displayedColumnsHolidays=this.getDisplayedColumnsHolidays();
       this.displayedColumnsWeekends=this.getDisplayedColumnsWeekends();
+      this.getCalendarById();
     }
 
-    closeDialog(): void {
-          this.dialog.close();
+    getCalendarById(): void {
+      this.calendarService.getItem(this.id).subscribe((dataView: any) => {
+        this.calendar = dataView;
+        console.log("calendar", this.calendar);
+        
+      });
+    }
+  
+    
+
+    getCalendar() {
+      this.calendarService.getItem(this.id).subscribe((data: any) => {
+        this.calendar = data;
+      });
     }
 
     getHolidays() {

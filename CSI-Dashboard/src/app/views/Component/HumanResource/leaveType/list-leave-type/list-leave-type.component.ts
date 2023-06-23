@@ -64,7 +64,7 @@ export class ListLeaveTypeComponent implements OnInit {
 
 
   openPopUp(data:  any , isNew?) {
-    let title = isNew ? 'Ajouter Type de conjé' : 'Mettre à jour Type de congé';
+    let title = isNew ? 'Ajouter Type de congés' : 'Mettre à jour Type de congés';
     let dialogRef: MatDialogRef<any> = this.dialog.open(CreateLeaveTypeComponent, {
       width: '900px',
       disableClose: true,
@@ -77,21 +77,21 @@ export class ListLeaveTypeComponent implements OnInit {
           return;
         }
         if (isNew) {
-          this.loader.open('Ajout Type de congé en cours');
+          this.loader.open('Ajout Type de congés en cours');
           this.leaveTypeService.addItem(res)
             .subscribe((data :any)=> {
               this.dataSource = data;
               this.loader.close();
-              this.snack.open('Type de congé ajouté avec succès !', 'OK', { duration: 2000 });
+              this.snack.open('Type de congés ajouté avec succès !', 'OK', { duration: 2000 });
               this.getItems();
             })
         } else {
-          this.loader.open('Mise à jour Type de congé');
+          this.loader.open('Mise à jour Type de congés');
           this.leaveTypeService.updateItem(data.id, res)
             .subscribe((data:any) => {
               this.dataSource = data ;
               this.loader.close();
-              this.snack.open('Type de congé mis à jour !', 'OK', { duration: 2000 });
+              this.snack.open('Type de congés mis à jour !', 'OK', { duration: 2000 });
               this.getItems();
             })
         }
@@ -103,12 +103,12 @@ export class ListLeaveTypeComponent implements OnInit {
     this.confirmService.confirm({message: `Delete ${row.firstName} ${row.lastName}?`})
       .subscribe(res => {
         if (res) {
-          this.loader.open('supprimer Récupération ');
+          this.loader.open('supprimer congés ');
           this.leaveTypeService.deleteItem(row.id)
           .subscribe((data:any)=> {
               this.dataSource = data;
               this.loader.close();
-              this.snack.open('Récupération supprimée!', 'OK', { duration: 4000 })
+              this.snack.open('congés supprimée!', 'OK', { duration: 4000 })
               this.getItems();
             })
         }
@@ -150,10 +150,10 @@ export class ListLeaveTypeComponent implements OnInit {
 
 getTimeOffType(timeOffType: string): { displayText: string } {
   const TIME_OFF_TYPE_DATA = {  
-    PAID_LEAVE: {  displayText: 'Congé payé' },
-    SPECIAL_PAID_LEAVE: { displayText: 'Congé spécial payé' },
-    UNPAIED_TIME_OFF: { displayText: 'Congé sans solde' },
-    SICKNESS_LEAVE: { displayText: 'Congé de maladie' },
+    PAID_LEAVE: {  displayText: 'Congés payé' },
+    SPECIAL_PAID_LEAVE: { displayText: 'Congés spécial payé' },
+    UNPAIED_TIME_OFF: { displayText: 'Congés sans solde' },
+    SICKNESS_LEAVE: { displayText: 'Congés de maladie' },
     OTHER: { displayText: 'Autre' }
   };
   return TIME_OFF_TYPE_DATA[timeOffType];

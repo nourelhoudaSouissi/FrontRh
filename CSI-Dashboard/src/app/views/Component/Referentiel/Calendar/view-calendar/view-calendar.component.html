@@ -1,26 +1,35 @@
 
-<div fxFlex.gt-md="600px">
-    <mat-card class="default">
-      <mat-card-header>
-        <mat-card-title class="mx-16 my-24">Info Calendrier</mat-card-title>
-      </mat-card-header>
+  <div fxLayout="row wrap">
+    <div fxFlex="100" fxFlex.gt-md="1100px" fxFlex.gt-sm="50">
+    <mat-card class="contracts-card" >
+      <h2 class="mx-16 my-24">
+        <mat-icon class="mr-8" color="primary">info</mat-icon>
+        Info général
+      </h2>
       <mat-card-content class="pt-0">
-        <mat-list>
-          <mat-list-item><strong>Référence: </strong> {{calendar.reference}}</mat-list-item>
-          <mat-list-item><strong>Titre: </strong>{{calendar.name}}</mat-list-item>
-          <mat-list-item><strong>Description: </strong>{{calendar.description}}</mat-list-item>
-       
-       
-        </mat-list>
+        <div class="info-row">
+          <div class="info-label"><strong>Référence: </strong></div>
+          <div class="info-value">{{calendar.reference}}</div>
+        </div>
+        <div class="info-row">
+          <div class="info-label"><strong>Titre: </strong></div>
+          <div class="info-value">{{calendar.name}}</div>
+        </div>
+        <div class="info-row">
+          <div class="info-label"><strong>Description: </strong></div>
+          <div class="info-value">{{calendar.description}}</div>
+        </div>
       </mat-card-content>
+      
     </mat-card>
-
+</div>
+</div>
 
     <!-- Card Holidays -->
 <div fxLayout="row wrap">
   <div fxFlex="100" fxFlex.gt-md="1100px" fxFlex.gt-sm="50">
     <mat-card class="contracts-card">
-      <h2 class="mx-16 my-24" style="text-align: center;">Liste des Jour Férier</h2>
+      <h2 class="mx-16 my-24" >Liste des Jour Férier</h2>
       <mat-card-content>
         <div class="item-table">
           <mat-table [dataSource]="dataSourceHolidays" class="mat-elevation-z4" #table>
@@ -64,7 +73,7 @@
  <div fxLayout="row wrap">
   <div fxFlex="100" fxFlex.gt-md="1100px" fxFlex.gt-sm="50">
     <mat-card class="contracts-card">
-      <h2 class="mx-16 my-24" style="text-align: center;">Liste des Weekend</h2>
+      <h2 class="mx-16 my-24" >Liste des Weekend</h2>
       <mat-card-content>
         <div class="item-table">
           <mat-table [dataSource]="dataSourceWeekends" class="mat-elevation-z4" #table>
@@ -105,6 +114,5 @@
       </mat-card-content>
     </mat-card>
   </div>
-</div>
 
  

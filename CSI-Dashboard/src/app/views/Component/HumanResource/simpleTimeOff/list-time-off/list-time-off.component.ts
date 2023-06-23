@@ -10,8 +10,6 @@ import { TimeOffService } from '../time-off.service';
 import { AppConfirmService } from 'app/shared/services/app-confirm/app-confirm.service';
 import { AppLoaderService } from 'app/shared/services/app-loader/app-loader.service';
 import { CreateTimeOffComponent } from '../create-time-off/create-time-off.component';
-import { ViewTimeOffComponent } from '../view-time-off/view-time-off.component';
-import * as moment from 'moment';
 
 
 @Component({
@@ -56,10 +54,6 @@ export class ListTimeOffComponent implements OnInit {
       this.getItemSub.unsubscribe()
     }
   }
-
-  /*getDisplayedColumns() {
-    return ['employeeFirstName','employeeLastName','leaveTypeName','leaveType', 'startDate','endDate', 'requestStatus',  'requestInputDate','actions'];
-  }*/
 
   getDisplayedColumns() {
     return ['employeeName','dates','leaveTypeName', 'leaveType', 'requestStatus', 'requestInputDate', 'actions'];
@@ -132,27 +126,7 @@ export class ListTimeOffComponent implements OnInit {
         }
       })
   }
-  /*openViewPopUp(dataView:  any ) {
-    let title =  'Détail Congé ' ;
-    let dialogRef: MatDialogRef<any> = this.dialog.open(ViewTimeOffComponent, {
-      width: '720px',
-      disableClose: true,
-      data: { title: title, payload: dataView }
-    })
-    dialogRef.afterClosed()
-      .subscribe(res => {
-          //this.loader.open('Ajout Congé en cours');
-          this.loader.open('Mise à jour besoin');
-          this.timeOffService.getItem(dataView.id)
-            .subscribe((data:any) => {
-              this.dataSource = data ;
-              this.loader.close();
-              this.snack.open('Congé mis à jour !', 'OK', { duration: 2000 });
-              this.getItems();
-            })
-        
-      })
-  }*/
+
   getStatusColor(requestStatus: string): { color: string, displayText: string } {
     const REQUEST_STATUS_DATA = {
       
