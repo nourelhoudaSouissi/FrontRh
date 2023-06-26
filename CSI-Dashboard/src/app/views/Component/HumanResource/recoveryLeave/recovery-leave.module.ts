@@ -31,6 +31,7 @@ import { CreateRecoveryLeaveComponent } from "./create-recovery-leave/create-rec
 import { ListRecoveryLeaveComponent } from "./list-recovery-leave/list-recovery-leave.component";
 import { RecoveryLeaveRoutes } from "./recovery-leave.routing";
 import { ViewRecoveryLeaceComponent } from './view-recovery-leace/view-recovery-leace.component';
+import { MatNativeDateModule } from '@angular/material/core';
 
 
 
@@ -73,6 +74,10 @@ import { ViewRecoveryLeaceComponent } from './view-recovery-leace/view-recovery-
     MatDatepickerModule,
     MatExpansionModule,
     MatTabsModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatDatepickerModule,
+    MatNativeDateModule,
     QuillModule.forRoot(),
     RouterModule.forChild(RecoveryLeaveRoutes)
   ]

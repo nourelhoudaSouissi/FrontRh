@@ -26,7 +26,7 @@
 
       <div  fxFlex="50"  class="pr-16" *ngIf="showHolidays">
         <mat-form-field appearance="outline" [style.width.cm]=10>
-          <mat-label>Holidays</mat-label>
+          <mat-label>Jours Fériers</mat-label>
             <mat-select  [formControlName]="'holidayNum'">
               <mat-option *ngFor="let holiday of listHolidays" [value]="holiday.id">{{holiday.name}}</mat-option>
             </mat-select>

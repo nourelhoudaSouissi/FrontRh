@@ -4,6 +4,7 @@ export class LeaveType  {
     description?: string;
     duration?: number;
     timeOffType?:TimeOffType;
+    alertNumberDays?:number;
 
     
 }
