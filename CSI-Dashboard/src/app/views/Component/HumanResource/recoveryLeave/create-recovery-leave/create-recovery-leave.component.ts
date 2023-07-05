@@ -57,7 +57,8 @@ export class CreateRecoveryLeaveComponent implements OnInit {
       toTakeStartDate: new UntypedFormControl('', []),
       toTakeEndDate: new UntypedFormControl('', []),
       periodToTake: new UntypedFormControl('', []),
-      comment: new UntypedFormControl('', [])
+      comment: new UntypedFormControl('', []),
+      employeeNum :new UntypedFormControl [1]
     
     })
 
@@ -78,6 +79,8 @@ export class CreateRecoveryLeaveComponent implements OnInit {
       toTakeEndDate: [item.toTakeEndDate || ''],
       periodToTake: [item.periodToTake || ''],
       comment: [item.comment || ''],
+      employeeNum : [1]
+
     })
       
   }

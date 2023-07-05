@@ -1,3 +1,4 @@
+import { Employee } from "./employee";
 
 export class TimeOff  {
     id?: number;
@@ -13,6 +14,8 @@ export class TimeOff  {
     justificationDoc?: string;
     timeOffPeriodType?:TimeOffPeriodType;
     timeOfTimeType?:TimeOfTimeType;
+    employee?:Employee;
+
     
 }
 

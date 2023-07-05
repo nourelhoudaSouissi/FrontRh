@@ -11,6 +11,7 @@ import { AppConfirmService } from 'app/shared/services/app-confirm/app-confirm.s
 import { AppLoaderService } from 'app/shared/services/app-loader/app-loader.service';
 import { Observable } from 'rxjs-compat';
 import { DatePipe } from '@angular/common';
+import { ViewRecoveryValidationComponent } from '../view-recovery-validation/view-recovery-validation.component';
 
 @Component({
   selector: 'app-list-recovery-validation',
@@ -53,7 +54,7 @@ export class ListRecoveryValidationComponent implements OnInit {
     }
   }
   getDisplayedColumns() {
-    return ['name', 'recoveryType', 'recoveryDay',  'inputDate', 'requestStatus', 'actions'];
+    return ['employeeName','name', 'recoveryType', 'recoveryDay',  'inputDate', 'requestStatus', 'actions'];
   }
   getItems() {    
     this.getItemSub = this.recoveryValidationService.getItems()
@@ -142,6 +143,24 @@ export class ListRecoveryValidationComponent implements OnInit {
   
 
  
+
+  openPopUpView(row: any): void {
+    const dialogRef = this.dialog.open(ViewRecoveryValidationComponent, {
+      width: '700px',
+      data:  { recoveryLeave : row},
+    });
+    dialogRef.afterOpened().subscribe(() => {
+      console.log('Dialog opened successfully.');
+    });
+    dialogRef.afterClosed().subscribe(result => {
+      console.log('Dialog closed with result:', result);
+      // Code executed after the dialog is closed
+    }, error => {
+      console.error('An error occurred while opening the dialog:', error);
+      // Handle the error appropriately (e.g., display an error message)
+    });
+  }
+
 
  
   

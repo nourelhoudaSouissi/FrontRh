@@ -16,6 +16,7 @@ export class RecoveryLeave  {
     weekendDate?:Date;
     recoveryHours?:RecoveryHours;
     requestStatus?:RequestStatus;
+    
 }
 
 export enum RecoveryType {

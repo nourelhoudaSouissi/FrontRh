@@ -1,0 +1,139 @@
+
+<mat-card class="p-0" [@animate]="{ value: '*', params: { y: '50px', delay: '300ms' } }">
+  <mat-card-title class="cardColor">
+    <div class="card-title-text">Decompte congés {{ timeOff.employee.firstName }} {{ timeOff.employee.lastName }}</div>
+  </mat-card-title>
+  
+  <div fxLayout="row wrap">
+    <div
+      fxFlex="50"
+      fxFlex.gt-sm="20"
+      fxFlex.sm="50"
+    >
+      <div class="text-center pt-16 pb-16 border-right-light">
+        <mat-icon class="text-green">perm_contact_calendar</mat-icon>
+        <h1 class="m-0 "> {{ timeOff.employee.remainingPaidLeave}} </h1>
+        <small class="m-0 ">Jours sur {{ timeOff.employee.remainingPaidLeave }}  </small>
+      </div>
+    </div>
+    <div
+      fxFlex="50"
+      fxFlex.gt-sm="20"
+      fxFlex.sm="50"
+    >
+    <div class="text-center pt-16 pb-16 border-right-light">
+      <mat-icon class="text-blue">local_hospital</mat-icon>
+      <h4 class="m-0 ">{{ timeOff.employee.sicknessLeaveRest }}</h4>
+      <h4 class="m-0 ">Congés Maladie</h4>
+      <small class="m-0 "><br>Congés Maladie: {{ timeOff.employee.sickLeaveRest }}</small>
+      <small class="m-0 "><br>Congés Accompagnement: {{ timeOff.employee.compassioateLeaveRest }}</small>
+  </div>
+  
+    </div>
+    <div
+      fxFlex="50"
+      fxFlex.gt-sm="20"
+      fxFlex.sm="50"
+    >
+      <div class="text-center pt-16 pb-16 border-right-light">
+        <mat-icon class="text-green">comment</mat-icon>
+        <h4 class="m-0 ">{{ timeOff.employee.specialPaidLeaveRest }}</h4>
+
+        <h4 class="m-0 ">Congés Spécial Payé</h4>
+        <small class="m-0 "><br>Congés Circoncision: {{ timeOff.employee.circoncisionLeaveRest }}</small>
+        <small class="m-0 "><br>Congés Décés: {{ timeOff.employee.deathLeaveRest }}</small>
+        <small class="m-0 "><br>Congés Marriage: {{ timeOff.employee.marriageLeaveRest }}</small>
+        <small class="m-0 "><br>Congés Naissance: {{ timeOff.employee.maternityLeaveRest }}</small>
+      
+      </div>
+    </div>
+    <div
+      fxFlex="50"
+      fxFlex.gt-sm="20"
+      fxFlex.sm="50"
+    >
+    
+      <div class="text-center pt-16 pb-16">
+        <mat-icon class="text-red">money_off</mat-icon>
+        <h4 class="m-0 "> {{ timeOff.employee.maternityLeaveRest }} Jours </h4>
+        <small class="m-0 ">Congés sans solde pris</small>
+      </div>
+    </div>
+    <div
+    fxFlex="50"
+    fxFlex.gt-sm="20"
+    fxFlex.sm="50"
+  >
+    <div class="text-center pt-16 pb-16 border-right-light">
+      <mat-icon class="text-blue">person</mat-icon>
+      <h4 class="m-0 ">Nom Prénom Sup</h4>
+      <small class="m-0 ">Supérieur Hiérarchique </small>
+    </div>
+  </div>
+ 
+  </div>
+</mat-card>
+ 
+
+
+
+<mat-card class="p-0">
+    <mat-card-title class="cardColor">
+      <div class="card-title-text">Informations Congés</div>
+      <mat-divider></mat-divider>
+    </mat-card-title>
+    <mat-card-content>
+      <div class="flex-container">
+        <div class="flex-item" style="padding-top: 15px;">
+          <mat-icon color="primary" class="mr-16">event</mat-icon>
+          <strong style="padding-right: 10px;">Date de début : </strong>{{ timeOff.startDate }}
+        </div>
+        <div class="flex-item">
+          <mat-icon color="primary" class="mr-16">event</mat-icon>
+          <strong style="padding-right: 10px;">Date de fin : </strong>{{ timeOff.endDate }}
+        </div>
+        <div class="flex-item">
+          <mat-icon color="primary" class="mr-16">date_range</mat-icon>
+          <strong style="padding-right: 10px;">Période de congé : </strong>{{ timeOff.timeOffPeriod }}
+        </div>
+        <div class="flex-item">
+          <mat-icon color="primary" class="mr-16">date_range</mat-icon>
+          <strong style="padding-right: 10px;">Date de saisie : </strong>{{ timeOff.requestInputDate }}
+        </div>
+        <div class="flex-item">
+          <mat-icon color="primary" class="mr-16">pending</mat-icon>
+          <strong style="padding-right: 10px;">Status : </strong>{{ timeOff.requestStatus }}
+        </div>
+      </div>
+    </mat-card-content>
+  </mat-card>
+  
+  
+  <mat-card class="p-0">
+    <mat-card-title class="cardColor">
+      <div class="card-title-text">Justification</div>
+      <mat-divider></mat-divider>
+    </mat-card-title>
+    <mat-card-content>
+      <div class="flex-container">
+        <div class="flex-item">
+          <mat-icon color="primary" class="mr-16">insert_comment</mat-icon>
+          <strong style="padding-right: 10px;">Description: </strong>
+          <p [innerHtml]="timeOff.description"></p>
+        </div>
+      </div>
+      <div class="flex-container">
+        <div class="flex-item">
+          <mat-icon color="primary" class="mr-16">description</mat-icon>
+          <strong style="padding-right: 10px;">Commentaire: </strong>
+          {{ timeOff.comment }}
+        </div>
+      </div>
+      <div class="flex-container">
+        <div class="propic text-center">
+          <img *ngIf="timeOff.justificationDoc" [src]="timeOff.justificationDoc" alt="" style="width: 1000px; height: 500px;">
+          <span *ngIf="!timeOff.justificationDoc">Pas de document</span>
+        </div>
+      </div>
+    </mat-card-content>
+  </mat-card>

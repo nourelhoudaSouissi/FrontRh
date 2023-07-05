@@ -29,12 +29,14 @@ import { Ng2TelInputModule } from "ng2-tel-input";
 import { QuillModule } from "ngx-quill";
 import { ListTimeOffValidationComponent } from "./list-time-off-validation/list-time-off-validation.component";
 import { TimeOffValidationRoutes } from "./timeOff-validation.routing";
+import { ViewTimeOffValidationComponent } from './view-time-off-validation/view-time-off-validation.component';
 
 
 
 @NgModule({
   declarations: [
-   ListTimeOffValidationComponent  
+   ListTimeOffValidationComponent,
+   ViewTimeOffValidationComponent  
   ],
   imports: [
     CommonModule,

@@ -1,5 +1,6 @@
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { Employee } from 'app/shared/models/employee';
 import { req } from 'app/shared/models/req';
 import { TimeOff } from 'app/shared/models/timeOff';
 import { Observable, catchError, throwError } from 'rxjs';
@@ -9,6 +10,7 @@ import { Observable, catchError, throwError } from 'rxjs';
 export class TimeOffValidationService {
 
   private apiUrl = 'http://localhost:8084/rh/TimeOff';
+  private apiUrl2 = 'http://localhost:8084/rh/employee';
 
   constructor(private http: HttpClient) { 
 
@@ -45,6 +47,13 @@ updateStatusToRejectedById(id: number): Observable<any> {
   );
 }
 
+// get employee by id
+getEmployee(id: number): Observable<Employee> {
+  const url = `${this.apiUrl2}/get/${id}`;
+  return this.http.get<Employee>(url).pipe(
+    catchError(this.handleError)
+  );
+}
 
 private handleError(error: HttpErrorResponse) {
   if (error.error instanceof ErrorEvent) {

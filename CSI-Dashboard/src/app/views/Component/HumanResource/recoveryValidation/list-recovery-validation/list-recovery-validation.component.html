@@ -68,7 +68,21 @@
       <mat-card-content class="p-0">
         <mat-table [dataSource]="dataSource" matSort>
          
- 
+          <ng-container matColumnDef="employeeName">
+            <mat-header-cell *matHeaderCellDef mat-sort-header>
+              <div class="column-header">
+                <div class="column-name">
+                  <span class="centered-text">Employee Name</span>
+                </div>
+                <div class="filter-input">
+                  <mat-form-field>
+                    <input matInput (input)="applyFilter($event, 'employeeName')" placeholder="Filter">
+                  </mat-form-field>
+                </div>
+              </div>
+            </mat-header-cell>
+            <mat-cell *matCellDef="let element">{{ element.employeeFirstName }} {{ element.employeeLastName }}</mat-cell>
+          </ng-container>
 
             <ng-container matColumnDef="name">
                 <mat-header-cell *matHeaderCellDef mat-sort-header>
@@ -171,7 +185,7 @@
             <mat-header-cell *matHeaderCellDef mat-sort-header> Actions </mat-header-cell>
             <mat-cell *matCellDef="let row">
               
-              <button mat-icon-button mat-sm-button  class="mr-16" >
+              <button mat-icon-button mat-sm-button  class="mr-16" (click)=" openPopUpView(row)">
                 <mat-icon>remove_red_eye </mat-icon>
               </button>
               

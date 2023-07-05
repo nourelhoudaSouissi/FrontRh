@@ -29,11 +29,13 @@ import { Ng2TelInputModule } from "ng2-tel-input";
 import { QuillModule } from "ngx-quill";
 import { ListRecoveryValidationComponent } from "./list-recovery-validation/list-recovery-validation.component";
 import { RecoveryValidationRoutes } from "./recovery-validation.routing";
+import { ViewRecoveryValidationComponent } from './view-recovery-validation/view-recovery-validation.component';
 
 
 @NgModule({
   declarations: [
- ListRecoveryValidationComponent
+ ListRecoveryValidationComponent,
+ ViewRecoveryValidationComponent
    
   ],
   imports: [
