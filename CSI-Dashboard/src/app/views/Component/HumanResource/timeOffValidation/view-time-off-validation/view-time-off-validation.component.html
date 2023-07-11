@@ -1,8 +1,11 @@
 
 <mat-card class="p-0" [@animate]="{ value: '*', params: { y: '50px', delay: '300ms' } }">
   <mat-card-title class="cardColor">
-    <div class="card-title-text">Decompte congés {{ timeOff.employee.firstName }} {{ timeOff.employee.lastName }}</div>
-  </mat-card-title>
+    <div class="card-title-text">
+      Decompte congés {{ timeOff.employee.firstName }} {{ timeOff.employee.lastName }}
+      <span class="current-year">{{ currentYear }}</span>
+    </div>
+      </mat-card-title>
   
   <div fxLayout="row wrap">
     <div
@@ -13,7 +16,7 @@
       <div class="text-center pt-16 pb-16 border-right-light">
         <mat-icon class="text-green">perm_contact_calendar</mat-icon>
         <h1 class="m-0 "> {{ timeOff.employee.remainingPaidLeave}} </h1>
-        <small class="m-0 ">Jours sur {{ timeOff.employee.remainingPaidLeave }}  </small>
+        <small class="m-0 ">Jours sur {{ timeOff.remainingPaidLeave }}  </small>
       </div>
     </div>
     <div
@@ -22,11 +25,20 @@
       fxFlex.sm="50"
     >
     <div class="text-center pt-16 pb-16 border-right-light">
-      <mat-icon class="text-blue">local_hospital</mat-icon>
-      <h4 class="m-0 ">{{ timeOff.employee.sicknessLeaveRest }}</h4>
+      <mat-icon class="text-blue" [matMenuTriggerFor]="menu">local_hospital</mat-icon>
+      <mat-menu #menu="matMenu"  yPosition="above" overlapTrigger="false" class="custom-menu">
+        <small class="m-0" *ngFor="let sicknessLeave of sicknessLeaveList">
+          <strong>Congés {{ sicknessLeave[0] }}:</strong> {{ sicknessLeave[1] }}
+          <ng-container *ngIf="sicknessLeave[1] === 1; else plural">jour</ng-container>
+          <ng-template #plural>jours</ng-template>
+          <br>
+        </small>
+      </mat-menu>
+      <h4 class="m-0 ">{{ timeOff.employee.sicknessLeaveRest }} /{{totalDurationSicknessLeave}}</h4>
       <h4 class="m-0 ">Congés Maladie</h4>
-      <small class="m-0 "><br>Congés Maladie: {{ timeOff.employee.sickLeaveRest }}</small>
-      <small class="m-0 "><br>Congés Accompagnement: {{ timeOff.employee.compassioateLeaveRest }}</small>
+      <small class="m-0 "  *ngFor="let sicknessLeave of sicknessLeaveDurationList">
+        Congés {{ sicknessLeave[0] }} 0/ {{ sicknessLeave[1] }}<br></small>
+
   </div>
   
     </div>
@@ -36,15 +48,32 @@
       fxFlex.sm="50"
     >
       <div class="text-center pt-16 pb-16 border-right-light">
-        <mat-icon class="text-green">comment</mat-icon>
-        <h4 class="m-0 ">{{ timeOff.employee.specialPaidLeaveRest }}</h4>
-
+        <mat-icon class="text-green" [matMenuTriggerFor]="menu">comment</mat-icon>
+        <mat-menu #menu="matMenu"  yPosition="above" overlapTrigger="false" class="custom-menu">
+          <small class="m-0" *ngFor="let specialPaidLeave of specialPaidLeaveList">
+            <strong>Congés {{ specialPaidLeave[0] }}: </strong>{{ specialPaidLeave[1] }}
+            <ng-container *ngIf="specialPaidLeave[1] === 1; else plural">jour</ng-container>
+            <ng-template #plural>jours</ng-template>
+            <br>
+          </small>
+        </mat-menu>
+        <h4 class="m-0">{{ timeOff.employee.specialPaidLeaveRest }} / {{ totalSpecialPaidLeaveDuration }}</h4>
         <h4 class="m-0 ">Congés Spécial Payé</h4>
-        <small class="m-0 "><br>Congés Circoncision: {{ timeOff.employee.circoncisionLeaveRest }}</small>
-        <small class="m-0 "><br>Congés Décés: {{ timeOff.employee.deathLeaveRest }}</small>
-        <small class="m-0 "><br>Congés Marriage: {{ timeOff.employee.marriageLeaveRest }}</small>
-        <small class="m-0 "><br>Congés Naissance: {{ timeOff.employee.maternityLeaveRest }}</small>
-      
+       
+       <!--<small class="m-0" *ngFor="let specialPaidLeave of specialPaidLeaveList">
+          Congés {{ specialPaidLeave[0] }} {{ getAccumulatedDuration(specialPaidLeave[0]) || 0 }}/{{ specialPaidLeave[1] }}<br>
+        </small>-->
+
+        <small class="m-0" *ngFor="let paidLeaveDuration of specialPaidLeaveDurationList">
+          Congés {{ paidLeaveDuration[0] }} - {{ paidLeaveDuration[1] }}
+          <ng-container *ngIf="paidLeaveDuration[1] === 1; else plural">jour</ng-container>
+          <ng-template #plural>jours</ng-template>
+          <br>
+        </small>
+        
+    
+        
+        
       </div>
     </div>
     <div
@@ -66,8 +95,9 @@
   >
     <div class="text-center pt-16 pb-16 border-right-light">
       <mat-icon class="text-blue">person</mat-icon>
-      <h4 class="m-0 ">Nom Prénom Sup</h4>
-      <small class="m-0 ">Supérieur Hiérarchique </small>
+      <h4 class="m-0 ">{{timeOff.employee.hierarchicalSuperior.lastName}} {{timeOff.employee.hierarchicalSuperior.firstName}}</h4>
+      <small class="m-0 ">Supérieur Hiérarchique </small><br>
+      <small class="m-0 ">{{employeeTitleMap[timeOff.employee.hierarchicalSuperior.title]}} </small>
     </div>
   </div>
  
@@ -116,11 +146,11 @@
     </mat-card-title>
     <mat-card-content>
       <div class="flex-container">
-        <div class="flex-item">
+      <!--<div class="flex-item">
           <mat-icon color="primary" class="mr-16">insert_comment</mat-icon>
           <strong style="padding-right: 10px;">Description: </strong>
           <p [innerHtml]="timeOff.description"></p>
-        </div>
+        </div>-->
       </div>
       <div class="flex-container">
         <div class="flex-item">

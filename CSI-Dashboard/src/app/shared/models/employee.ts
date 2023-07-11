@@ -1,3 +1,5 @@
+import { LeaveType } from "./leaveType";
+
 export class Employee {
     id?: number;
     lastName ?:string;
@@ -48,6 +50,9 @@ export class Employee {
     compassioateLeaveRest: number;
     remainingRecoveryLeaveRest: number;
     hireDate: number;
+    hierarchicalSuperior: Employee;
+    leaveBalances: Map<LeaveType, number>;
+    
 
 }
 export enum Departement{

@@ -54,6 +54,52 @@ updateItem(id: number, leaveType: LeaveType): Observable<LeaveType> {
 }
 
 
+// Get total duration for special paid leave
+getTotalDurationSpecialPaidLeave(): Observable<number> {
+  const url = `${this.apiUrl}/getTotalDurationSpecialPaidLeave`;
+  return this.http.get<number>(url).pipe(
+    catchError(this.handleError)
+  );
+}
+
+// Get total duration for special paid leave
+getTotalDurationSicknessLeave(): Observable<number> {
+  const url = `${this.apiUrl}/getTotalDurationSicknessLeave`;
+  return this.http.get<number>(url).pipe(
+    catchError(this.handleError)
+  );
+}
+
+  // Get list of sickness leave names
+  /*getSicknessLeaveList(): Observable<string[]> {
+    const url = `${this.apiUrl}/getSicknessLeaveList`;
+    return this.http.get<string[]>(url).pipe(
+      catchError(this.handleError)
+    );
+  }*/
+  getSicknessLeaveList(): Observable<{ name: string, duration: number }[]> {
+    const url = `${this.apiUrl}/getSicknessLeaveList`;
+    return this.http.get<{ name: string, duration: number }[]>(url).pipe(
+      catchError(this.handleError)
+    );
+    }
+  
+  // Get list of special paid leave names
+ /* getSpecialPaidLeaveList(): Observable<string[]> {
+    const url = `${this.apiUrl}/getSpecialPaidLeaveList`;
+    return this.http.get<string[]>(url).pipe(
+      catchError(this.handleError)
+    );
+  }*/
+  getSpecialPaidLeaveList(): Observable<{ name: string, duration: number }[]> {
+    const url = `${this.apiUrl}/getSpecialPaidLeaveList`;
+    return this.http.get<{ name: string, duration: number }[]>(url).pipe(
+      catchError(this.handleError)
+    );
+  }
+
+    
+
 private handleError(error: HttpErrorResponse) {
   if (error.error instanceof ErrorEvent) {
     // A client-side or network error occurred. Handle it accordingly.

@@ -123,9 +123,6 @@ export class CreateCalendarComponent implements OnInit {
 
   }
 
-  
-  
-
   get myArrayControls() {
     return (this.myHolidayForm.get('holidays') as FormArray).controls;
   }

@@ -15,6 +15,7 @@ export class TimeOff  {
     timeOffPeriodType?:TimeOffPeriodType;
     timeOfTimeType?:TimeOfTimeType;
     employee?:Employee;
+    remainingPaidLeave?: number;
 
     
 }
