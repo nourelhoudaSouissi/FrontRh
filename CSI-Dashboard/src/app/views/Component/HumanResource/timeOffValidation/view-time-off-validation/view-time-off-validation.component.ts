@@ -1,11 +1,12 @@
 import { Component, OnInit } from '@angular/core';
-import { TimeOff } from 'app/shared/models/timeOff';
+import { RequestStatus, TimeOff } from 'app/shared/models/timeOff';
 import { TimeOffService } from '../../simpleTimeOff/time-off.service';
 import { ActivatedRoute } from '@angular/router';
 import { Employee, Title } from 'app/shared/models/employee';
 import { TimeOffValidationService } from '../time-off-validation.service';
 import { LeaveTypeService } from '../../leaveType/leave-type.service';
 import { LeaveType } from 'app/shared/models/leaveType';
+import { DatePipe } from '@angular/common';
 
 @Component({
   selector: 'app-view-time-off-validation',
@@ -22,21 +23,34 @@ export class ViewTimeOffValidationComponent implements OnInit {
 
 
   currentYear: number = new Date().getFullYear();
+
   totalSpecialPaidLeaveDuration: number;
   totalDurationSicknessLeave: number;
+
   sicknessLeaveList: { name: string, duration: number }[] = [];
   specialPaidLeaveList: { name: string, duration: number }[] = [];
 
 
   specialPaidLeaveDurationList: { name: string, totalDuration: number }[] = [];
-
   sicknessLeaveDurationList: { name: string, totalDuration: number }[] = [];
 
+  totalDurationSpecialPaidLeaveConsumed: number;
+  totalDurationSichnessLeaveConsumed: number;
+
+  totalDurationPaidLeaveConsumed: number;
+
+  totalDurationUnpaidLeaveConsumed: number;
+
+  
 
   constructor(
     private timeOffService: TimeOffValidationService,
     private leaveTypeService : LeaveTypeService,
-    private route: ActivatedRoute) { }
+    private route: ActivatedRoute,
+   ) { }
+
+
+ 
 
   ngOnInit(): void {
     console.log("employee");
@@ -46,13 +60,20 @@ export class ViewTimeOffValidationComponent implements OnInit {
    
    this.getTotalSpecialPaidLeaveDuration();
    this.getTotalDurationSicknessLeave();
+
    this.getSicknessLeaveList();
    this.getSpecialPaidLeaveList();
+
    this.getLeaveTypeDurations(); // Call the new method to fetch leave type durations
+
    this.getTotalDurationSpecialPaidLeaveByLeaveTypeAndEmployeeId(); 
    this.getTotalDurationSicknessLeaveByLeaveTypeAndEmployeeId();// Call the new method to fetch total special paid leave by leave type and employee ID
-   console.log(this.timeOff.description);
+   
+   this.getTotalDurationSpecialPaidLeaveConsumed();
+   this.getTotalDurationSichnessLeaveConsumed();
 
+   this.getTotalDurationPaidLeaveConsumed();
+   this.getTotalDurationUnpaidLeaveEmployeeId();
   } 
 
  
@@ -80,10 +101,14 @@ export class ViewTimeOffValidationComponent implements OnInit {
       this.timeOff = dataView;
       console.log("timeOff", this.timeOff);
       console.log("timeOfffffffffffffffff", this.timeOff.employee.id);
-
       console.log("justificationDoc", this.timeOff.justificationDoc);
       this.getTotalDurationSpecialPaidLeaveByLeaveTypeAndEmployeeId();
       this.getTotalDurationSicknessLeaveByLeaveTypeAndEmployeeId();
+      this.getTotalDurationSichnessLeaveConsumed();
+      this.getTotalDurationSpecialPaidLeaveConsumed();
+      this.getTotalDurationPaidLeaveConsumed();
+      this.getTotalDurationUnpaidLeaveEmployeeId();
+
     });
   }
 
@@ -100,7 +125,7 @@ export class ViewTimeOffValidationComponent implements OnInit {
       }
     );
   }
-
+  
   getTotalDurationSicknessLeave(): void {
     this.leaveTypeService.getTotalDurationSicknessLeave().subscribe(
       (duration: number) => {
@@ -191,11 +216,66 @@ export class ViewTimeOffValidationComponent implements OnInit {
   }
  
   
+  getTotalDurationSpecialPaidLeaveConsumed(): void {
+    if (this.timeOff && this.timeOff.employee) {
+      console.log("employee getTotalDurationSpecialPaidLeaveConsumed", this.timeOff.employee.id);
+    this.timeOffService.getTotalDurationSpecialPaidLeaveConsumed(this.timeOff.employee.id).subscribe(
+      (duration: number) => {
+        this.totalDurationSpecialPaidLeaveConsumed = duration;
+        console.log('Total Special Paid Leave Duration Consumed:', duration);
+      },
+      (error: any) => {
+        console.error('Error retrieving total special paid leave duration consumed:', error);
+      }
+    );
+    }
+  }
   
+  getTotalDurationSichnessLeaveConsumed(): void {
+    if (this.timeOff && this.timeOff.employee) {
+      console.log("employee getTotalDurationSpecialPaidLeaveConsumed", this.timeOff.employee.id);
+    this.timeOffService.getTotalDurationSicknessLeaveConsumed(this.timeOff.employee.id).subscribe(
+      (duration: number) => {
+        this.totalDurationSichnessLeaveConsumed = duration;
+        console.log('Total Sickness Leave Duration Consumed:', duration);
+      },
+      (error: any) => {
+        console.error('Error retrieving total sickness leave duration consumed:', error);
+      }
+    );
+    }
+  }
+
+  getTotalDurationPaidLeaveConsumed(): void {
+    if (this.timeOff && this.timeOff.employee) {
+      console.log("employee getTotalDurationPaidLeaveConsumed", this.timeOff.employee.id);
+    this.timeOffService.getTotalDurationPaidLeaveEmployeeId(this.timeOff.employee.id).subscribe(
+      (duration: number) => {
+        this.totalDurationPaidLeaveConsumed = duration;
+        console.log('Total Paid Leave Duration Consumed:', duration);
+      },
+      (error: any) => {
+        console.error('Error retrieving total paid leave duration consumed:', error);
+      }
+    );
+    }
+  }
   
-  
-  
-  
+  getTotalDurationUnpaidLeaveEmployeeId(): void {
+    if (this.timeOff && this.timeOff.employee) {
+      console.log("employee getTotalDurationUnpaidLeaveEmployeeId", this.timeOff.employee.id);
+    this.timeOffService.getTotalDurationUnpaidLeaveEmployeeId(this.timeOff.employee.id).subscribe(
+      (duration: number) => {
+        this.totalDurationUnpaidLeaveConsumed = duration;
+        console.log('Total Unpaid Leave Duration Consumed:', duration);
+      },
+      (error: any) => {
+        console.error('Error retrieving total Unpaid leave duration consumed:', error);
+      }
+    );
+    }
+  }
+
   
   
   
@@ -218,6 +298,14 @@ export class ViewTimeOffValidationComponent implements OnInit {
     [Title.SALES_REPRESENTATIVE]: 'Représentant Commercial',
     [Title.CUSTOMER_SUPPORT_SPECIALIST]: 'Spécialiste du Support Client',
     [Title.MARKETING_COORDINATOR]: 'Coordinateur Marketing'
+  };
+
+  
+  requestStatusMap = {
+    [RequestStatus.REJECTED]: 'Refusé',
+    [RequestStatus.VALIDATED]: 'Validé',
+    [RequestStatus.PENDING]: 'En cours',
+   
   };
 
 }

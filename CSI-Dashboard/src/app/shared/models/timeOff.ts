@@ -26,7 +26,8 @@ export class TimeOff  {
 
 export enum RequestStatus{
     VALIDATED,
-    REJECTED
+    REJECTED, 
+    PENDING
 
   }
 

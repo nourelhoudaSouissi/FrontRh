@@ -49,7 +49,7 @@ export class Employee {
     sickLeaveRest: number;
     compassioateLeaveRest: number;
     remainingRecoveryLeaveRest: number;
-    hireDate: number;
+    hireDate: Date;
     hierarchicalSuperior: Employee;
     leaveBalances: Map<LeaveType, number>;
     

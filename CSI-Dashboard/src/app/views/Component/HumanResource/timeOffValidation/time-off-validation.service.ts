@@ -72,15 +72,40 @@ getEmployee(id: number): Observable<Employee> {
   );
 }  
 
-/*
+
 // Get total duration for sickenss taken by an employee
-getTotalDurationSicknessLeave(employeeId: number): Observable<number> {
+getTotalDurationSicknessLeaveConsumed(employeeId: number): Observable<number> {
   const url = `${this.apiUrl}/getTotalDurationSicknessLeaveEmployeeId/${employeeId}`;
   return this.http.get<number>(url).pipe(
     catchError(this.handleError)
   );
-}*/
+}
 
+// Get total duration for Special Paid Leave  taken by an employee
+getTotalDurationSpecialPaidLeaveConsumed(employeeId: number): Observable<number> {
+  const url = `${this.apiUrl}/getTotalDurationSpecialPaidLeaveEmployeeId/${employeeId}`;
+  return this.http.get<number>(url).pipe(
+    catchError(this.handleError)
+  );
+}
+
+
+// Get total duration for Paid Leave  taken by an employee
+getTotalDurationPaidLeaveEmployeeId(employeeId: number): Observable<number> {
+  const url = `${this.apiUrl}/getTotalDurationPaidLeaveEmployeeId/${employeeId}`;
+  return this.http.get<number>(url).pipe(
+    catchError(this.handleError)
+  );
+}
+
+
+// Get total duration for Unpaid Leave  taken by an employee
+getTotalDurationUnpaidLeaveEmployeeId(employeeId: number): Observable<number> {
+  const url = `${this.apiUrl}/getTotalDurationUnpaidLeaveEmployeeId/${employeeId}`;
+  return this.http.get<number>(url).pipe(
+    catchError(this.handleError)
+  );
+}
 
 // Get leave type durations by employee
 getLeaveTypeDurationsByEmployee(employeeId: number): Observable<{ leaveType: string, totalDuration: number }[]> {

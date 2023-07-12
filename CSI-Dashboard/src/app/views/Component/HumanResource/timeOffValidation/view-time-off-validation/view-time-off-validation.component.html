@@ -15,7 +15,9 @@
     >
       <div class="text-center pt-16 pb-16 border-right-light">
         <mat-icon class="text-green">perm_contact_calendar</mat-icon>
-        <h1 class="m-0 "> {{ timeOff.employee.remainingPaidLeave}} </h1>
+        <h1 class="m-0 "> {{ totalDurationPaidLeaveConsumed }} </h1>
+        <strong >{{ timeOff.employee.hireDate  | date: 'dd/MM/yyyy'}}  <br></strong>
+
         <small class="m-0 ">Jours sur {{ timeOff.remainingPaidLeave }}  </small>
       </div>
     </div>
@@ -34,11 +36,14 @@
           <br>
         </small>
       </mat-menu>
-      <h4 class="m-0 ">{{ timeOff.employee.sicknessLeaveRest }} /{{totalDurationSicknessLeave}}</h4>
+      <h4 class="m-0 ">{{ totalDurationSichnessLeaveConsumed }} /{{totalDurationSicknessLeave}}</h4>
       <h4 class="m-0 ">Congés Maladie</h4>
       <small class="m-0 "  *ngFor="let sicknessLeave of sicknessLeaveDurationList">
-        Congés {{ sicknessLeave[0] }} 0/ {{ sicknessLeave[1] }}<br></small>
-
+        Congés {{ sicknessLeave[0] }} - {{ sicknessLeave[1] }}
+        <ng-container *ngIf="sicknessLeave[1] === 1; else plural">jour</ng-container>
+        <ng-template #plural>jours</ng-template>
+        <br>
+      </small>      
   </div>
   
     </div>
@@ -57,7 +62,7 @@
             <br>
           </small>
         </mat-menu>
-        <h4 class="m-0">{{ timeOff.employee.specialPaidLeaveRest }} / {{ totalSpecialPaidLeaveDuration }}</h4>
+        <h4 class="m-0">{{ totalDurationSpecialPaidLeaveConsumed }} / {{ totalSpecialPaidLeaveDuration }}</h4>
         <h4 class="m-0 ">Congés Spécial Payé</h4>
        
        <!--<small class="m-0" *ngFor="let specialPaidLeave of specialPaidLeaveList">
@@ -84,7 +89,7 @@
     
       <div class="text-center pt-16 pb-16">
         <mat-icon class="text-red">money_off</mat-icon>
-        <h4 class="m-0 "> {{ timeOff.employee.maternityLeaveRest }} Jours </h4>
+        <h4 class="m-0 "> {{ totalDurationUnpaidLeaveConsumed }} Jours </h4>
         <small class="m-0 ">Congés sans solde pris</small>
       </div>
     </div>
@@ -114,26 +119,27 @@
     </mat-card-title>
     <mat-card-content>
       <div class="flex-container">
-        <div class="flex-item" style="padding-top: 15px;">
-          <mat-icon color="primary" class="mr-16">event</mat-icon>
-          <strong style="padding-right: 10px;">Date de début : </strong>{{ timeOff.startDate }}
-        </div>
         <div class="flex-item">
-          <mat-icon color="primary" class="mr-16">event</mat-icon>
-          <strong style="padding-right: 10px;">Date de fin : </strong>{{ timeOff.endDate }}
-        </div>
-        <div class="flex-item">
-          <mat-icon color="primary" class="mr-16">date_range</mat-icon>
+          <mat-icon color="primary" class="mr-16" >event</mat-icon>
+          <strong style="padding-right: 10px;">Date de début : </strong>{{ timeOff.startDate | date: 'dd/MM/yyyy' }}
+        
+          <mat-icon color="primary" class="mr-16" style="padding-left: 150px;">event</mat-icon>
+          <strong style="padding-right: 10px;">Date de fin : </strong>{{ timeOff.endDate | date: 'dd/MM/yyyy'}}
+       
+          <mat-icon color="primary" class="mr-16" style="padding-left: 150px;">date_range</mat-icon>
           <strong style="padding-right: 10px;">Période de congé : </strong>{{ timeOff.timeOffPeriod }}
-        </div>
+          <ng-container *ngIf="timeOff.timeOffPeriod=== 1; else plural">jour</ng-container>
+          <ng-template #plural>jours</ng-template>
+       </div>
+
         <div class="flex-item">
           <mat-icon color="primary" class="mr-16">date_range</mat-icon>
-          <strong style="padding-right: 10px;">Date de saisie : </strong>{{ timeOff.requestInputDate }}
+          <strong style="padding-right: 10px;">Date de saisie : </strong>{{ timeOff.requestInputDate | date: 'dd/MM/yyyy' }}
+       
+          <mat-icon color="primary" class="mr-16" style="padding-left: 150px;">pending</mat-icon>
+          <strong style="padding-right: 10px;">Status : </strong>{{timeOff.requestStatus}}
         </div>
-        <div class="flex-item">
-          <mat-icon color="primary" class="mr-16">pending</mat-icon>
-          <strong style="padding-right: 10px;">Status : </strong>{{ timeOff.requestStatus }}
-        </div>
+
       </div>
     </mat-card-content>
   </mat-card>
