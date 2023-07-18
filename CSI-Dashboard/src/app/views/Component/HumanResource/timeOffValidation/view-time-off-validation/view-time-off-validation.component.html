@@ -2,7 +2,7 @@
 <mat-card class="p-0" [@animate]="{ value: '*', params: { y: '50px', delay: '300ms' } }">
   <mat-card-title class="cardColor">
     <div class="card-title-text">
-      Decompte congés {{ timeOff.employee.firstName }} {{ timeOff.employee.lastName }}
+      Décompte congés {{ timeOff.employee.firstName }} {{ timeOff.employee.lastName }}
       <span class="current-year">{{ currentYear }}</span>
     </div>
       </mat-card-title>
@@ -53,10 +53,10 @@
       fxFlex.sm="50"
     >
       <div class="text-center pt-16 pb-16 border-right-light">
-        <mat-icon class="text-green" [matMenuTriggerFor]="menu">comment</mat-icon>
-        <mat-menu #menu="matMenu"  yPosition="above" overlapTrigger="false" class="custom-menu">
+        <mat-icon class="text-green" [matMenuTriggerFor]="specialPaidLeaveMenu">comment</mat-icon>
+        <mat-menu #specialPaidLeaveMenu="matMenu" yPosition="above" overlapTrigger="false" class="custom-menu">
           <small class="m-0" *ngFor="let specialPaidLeave of specialPaidLeaveList">
-            <strong>Congés {{ specialPaidLeave[0] }}: </strong>{{ specialPaidLeave[1] }}
+            <strong>Congés {{ specialPaidLeave[0] }} :</strong> {{ specialPaidLeave[1] }}
             <ng-container *ngIf="specialPaidLeave[1] === 1; else plural">jour</ng-container>
             <ng-template #plural>jours</ng-template>
             <br>
@@ -64,11 +64,7 @@
         </mat-menu>
         <h4 class="m-0">{{ totalDurationSpecialPaidLeaveConsumed }} / {{ totalSpecialPaidLeaveDuration }}</h4>
         <h4 class="m-0 ">Congés Spécial Payé</h4>
-       
-       <!--<small class="m-0" *ngFor="let specialPaidLeave of specialPaidLeaveList">
-          Congés {{ specialPaidLeave[0] }} {{ getAccumulatedDuration(specialPaidLeave[0]) || 0 }}/{{ specialPaidLeave[1] }}<br>
-        </small>-->
-
+  
         <small class="m-0" *ngFor="let paidLeaveDuration of specialPaidLeaveDurationList">
           Congés {{ paidLeaveDuration[0] }} - {{ paidLeaveDuration[1] }}
           <ng-container *ngIf="paidLeaveDuration[1] === 1; else plural">jour</ng-container>
@@ -137,7 +133,7 @@
           <strong style="padding-right: 10px;">Date de saisie : </strong>{{ timeOff.requestInputDate | date: 'dd/MM/yyyy' }}
        
           <mat-icon color="primary" class="mr-16" style="padding-left: 150px;">pending</mat-icon>
-          <strong style="padding-right: 10px;">Status : </strong>{{timeOff.requestStatus}}
+          <strong style="padding-right: 10px;">Status : </strong>{{requestStatusMap[timeOff.requestStatus]}}
         </div>
 
       </div>
