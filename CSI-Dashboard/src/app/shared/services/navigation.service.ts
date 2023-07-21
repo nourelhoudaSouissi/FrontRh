@@ -76,6 +76,8 @@ export class NavigationService {
         { name: 'Feuille de Temps', state: 'shop/cart' },
         { name: 'Congés Employées', state: 'simpleTimeOff/timeOff-crud' },
         { name: 'Validation des Congés', state: 'timeOffValidation/timeOffValidation-crud' },
+        { name: 'Note de Frais', state: 'expenseReport/expenseReport-crud' },
+        { name: 'Validation Note de Frais', state: 'expenseReportValidation/expenseReportValidation-crud' },
       /*  { name: 'Congés Empoyées', state: 'time-off-employee/timeOffEmployee-crud' },*/
         { name: 'Récupération', state: 'recoveryLeave/recoveryLeave-crud' },
         { name: 'Validation Récupération', state: 'recoveryLeaveValidation/recoveryValidation-crud' },

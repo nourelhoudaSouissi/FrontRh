@@ -244,12 +244,21 @@ export const rootRouterConfig: Routes = [
         path: 'weekend',
         loadChildren: () => import('./views/Component/Referentiel/Weekend/weekend.module').then(m => m.WeekendModule),
         data: { title: 'Weekend', breadcrumb: 'Weekend'}
-      }
-      ,
+      },
       {
         path: 'calendar',
         loadChildren: () => import('./views/Component/Referentiel/Calendar/calendar.module').then(m => m.CalendarModule),
         data: { title: 'Calendrier', breadcrumb: 'Calendrier'}
+      },
+      {
+        path: 'expenseReport',
+        loadChildren: () => import('./views/Component/HumanResource/expenseReport/expenseReport.module').then(m => m.ExpenseReportModule),
+        data: { title: 'Note de Frais', breadcrumb: 'Note de Frais'}
+      },
+      {
+        path: 'expenseReportValidation',
+        loadChildren: () => import('./views/Component/HumanResource/expenseReportValidation/expenseReportValidation.module').then(m => m.ExpenseReportValidationModule),
+        data: { title: ' Validation Note de Frais', breadcrumb: 'Validation Note de Frais'}
       }
    
 
