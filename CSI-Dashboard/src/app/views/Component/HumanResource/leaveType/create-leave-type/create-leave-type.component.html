@@ -40,7 +40,17 @@
           placeholder="Nombre de jour"  />
         </mat-form-field>
       </div>
-        
+
+      <div fxFlex="50" class="pr-16">
+        <mat-form-field appearance="outline" [style.width.cm]=10>
+          <mat-label>Alert avant </mat-label>
+          <input matInput 
+          name="alertNumberDays" 
+          type="number"  
+          formControlName="alertNumberDays" 
+          placeholder="Alert avant "  />
+        </mat-form-field>
+      </div>
     
           <div class="mini-container" >
             <mat-form-field [style.width.cm]=21.2 class="example-full-width" appearance="outline">

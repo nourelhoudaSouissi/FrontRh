@@ -58,6 +58,12 @@
          <div fxFlex="50"  class="pt-16 pr-16">
             <mat-slide-toggle [formControl]="itemForm.controls['customerBilling']">Facturation Client</mat-slide-toggle>
           </div>
+
+          <div  fxFlex="50"  class="pr-16">
+            <mat-label>Joindre une justification: </mat-label>
+            <input type="file" (change)="onFileSelected($event)">
+          </div>
+          
        
         
           <div fxFlex="100" class="mt-16">

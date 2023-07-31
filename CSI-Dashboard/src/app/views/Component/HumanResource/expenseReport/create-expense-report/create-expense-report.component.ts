@@ -30,7 +30,9 @@ export class CreateExpenseReportComponent implements OnInit {
       currency : [item.currency || '', Validators.required],
       comment : [item.comment || '', Validators.required],
       customerBilling : [item.customerBilling || '', Validators.required],
+      justificationDoc : [item.justificationDoc || '', Validators.required],
       employeeNum : [1],
+      
           })
   }
   ngOnInit(): void {
@@ -181,6 +183,22 @@ export class CreateExpenseReportComponent implements OnInit {
     'ZMW': 'ZMW - Kwacha zambien',
     'ZWL': 'ZWL - Dollar zimbabwéen',
   };
+
+  onFileSelected(event) {
+    const reader = new FileReader();
+    if (event.target.files && event.target.files.length) {
+      const [file] = event.target.files;
+      reader.readAsDataURL(file);
+      reader.onload = () => {
+        console.log("reader.result",reader.result)
+        this.itemForm.patchValue({
+          justificationDoc: reader.result
+        });
+        console.log(this.itemForm.value)
+      };
+    }
+  }
+
 
   
 }

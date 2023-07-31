@@ -110,16 +110,16 @@ export class ListExpenseReportValidationComponent implements OnInit {
     let updateObservable: Observable<any>;
     switch (requestStatus) {
       case 'requestStatus.VALIDATED':
-        this.confirmService.confirm({ message: 'Êtes-vous sûr de vouloir valider cette demande de congé ?' })
+        this.confirmService.confirm({ message: 'Êtes-vous sûr de vouloir valider cette Note de Frais ?' })
         .subscribe((res) => {
           if (res) {
-            this.loader.open('Validation Congé');
+            this.loader.open('Validation  Note de Frais');
             this.expenseReportValidationService.updateStatusToValidatedById(timeOffId)
               .subscribe(
                 (data: any) => {
                   this.dataSource = data;
                   this.loader.close();
-                  this.snack.open('Congé validé!', 'OK', { duration: 4000 });
+                  this.snack.open(' Note de Frais validé!', 'OK', { duration: 4000 });
                   this.getItems();
                 },
                 (error) => {
@@ -133,16 +133,16 @@ export class ListExpenseReportValidationComponent implements OnInit {
       //  this.getItems();
         break;
       case 'requestStatus.REJECTED':
-        this.confirmService.confirm({ message: 'Êtes-vous sûr de vouloir refuser cette demande de congé ?' })
+        this.confirmService.confirm({ message: 'Êtes-vous sûr de vouloir refuser cette Note de Frais ?' })
         .subscribe((res) => {
           if (res) {
-            this.loader.open('Validation Congé');
+            this.loader.open('Refus Note de Frais');
             this.expenseReportValidationService.updateStatusToRejectedById(timeOffId)
               .subscribe(
                 (data: any) => {
                   this.dataSource = data;
                   this.loader.close();
-                  this.snack.open('Congé  refusé!', 'OK', { duration: 4000 });
+                  this.snack.open('Note de Frais refusée!', 'OK', { duration: 4000 });
                   this.getItems();
                 },
                 (error) => {

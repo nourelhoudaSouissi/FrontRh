@@ -1,4 +1,5 @@
 import { Employee } from "./employee";
+import { LeaveType } from "./leaveType";
 
 export class TimeOff  {
     id?: number;
@@ -16,6 +17,8 @@ export class TimeOff  {
     timeOfTimeType?:TimeOfTimeType;
     employee?:Employee;
     remainingPaidLeave?: number;
+    leaveType?:LeaveType;
+    leaveTypeAlertNumberDays?:number;
 
     
 }

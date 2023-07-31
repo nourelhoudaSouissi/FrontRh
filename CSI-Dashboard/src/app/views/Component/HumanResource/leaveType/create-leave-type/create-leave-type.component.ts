@@ -26,6 +26,7 @@ export class CreateLeaveTypeComponent implements OnInit {
       name : [item.name || '', Validators.required],
       timeOffType : [item.timeOffType || '', Validators.required],
       duration : [item.duration || '', Validators.required],
+      alertNumberDays: [item.alertNumberDays || '', Validators.required],
       description : [item.description || '', Validators.required]
     })
   }

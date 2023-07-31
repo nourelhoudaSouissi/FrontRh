@@ -50,7 +50,7 @@ export class ListLeaveTypeComponent implements OnInit {
   }
 
   getDisplayedColumns() {
-    return ['name', 'description', 'duration', 'timeOffType', 'actions'];
+    return ['name', 'description', 'duration','alertNumberDays', 'timeOffType', 'actions'];
   }
   getItems() {    
     this.getItemSub = this.leaveTypeService.getItems()

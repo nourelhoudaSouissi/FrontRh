@@ -13,6 +13,7 @@ import { TimeOffValidationService } from '../time-off-validation.service';
 import { AppLoaderService } from 'app/shared/services/app-loader/app-loader.service';
 import { AppConfirmService } from 'app/shared/services/app-confirm/app-confirm.service';
 import { DatePipe } from '@angular/common';
+import { LeaveType } from 'app/shared/models/leaveType';
 
 @Component({
   selector: 'app-list-time-off-validation',
@@ -29,16 +30,20 @@ export class ListTimeOffValidationComponent implements OnInit {
   public displayedColumns: any;
   public getItemSub: Subscription;
   requestStatus :any= Object.values(RequestStatus);
-  private datePipe: DatePipe
+  //private datePipe: DatePipe;
+
+  timeOffDifference?: string;
 
   constructor(
-    
+
     private dialog: MatDialog,
     private snack: MatSnackBar,
     private timeOffValidationService: TimeOffValidationService,
     private confirmService: AppConfirmService,
     private loader: AppLoaderService
-  ) {     this.dataSource = new MatTableDataSource<TimeOff>([]);}
+  ) {     
+    this.dataSource = new MatTableDataSource<TimeOff>([]);
+  }
 
 
   
@@ -59,7 +64,7 @@ export class ListTimeOffValidationComponent implements OnInit {
   }
 
   getDisplayedColumns() {
-    return ['employeeName','dates','leaveTypeName','leaveType', 'requestStatus',  'requestInputDate','actions'];
+    return ['employeeName','dates','leaveType','leaveTypeName', 'requestStatus', 'diffrence', 'requestInputDate','actions'];
   }
   
   getItems() {    
@@ -70,7 +75,209 @@ export class ListTimeOffValidationComponent implements OnInit {
         this.dataSource.sort = this.sort;
       })
 
+
   }
+  
+
+  getValidationAlertMessage(startDate: string, leaveTypeAlertNumberDays: number, requestStatus: string): { message: string, style: any } {
+    const today = new Date();
+    const start = new Date(startDate);
+    const timeDiffBeforeStart = Math.abs(start.getTime() - today.getTime());
+    const diffDaysBeforeStart = Math.ceil(timeDiffBeforeStart / (1000 * 3600 * 24));
+    let message = '';
+    let style: any = {};
+  
+    if (requestStatus === 'VALIDATED') {
+      message = 'Déjà validé';
+      style = {  'font-weight': 'bold' };
+    } else if (requestStatus === 'PENDING' && diffDaysBeforeStart <= leaveTypeAlertNumberDays) {
+      if (diffDaysBeforeStart === 0) {
+        message = 'Date limite aujourd\'hui !';
+      } else if (diffDaysBeforeStart === 1) {
+        message = 'Date limite demain !';
+      } else {
+        message = `Date limite ${diffDaysBeforeStart} jours.`;
+      }
+      style = { color: 'red', 'font-weight': 'bold' };
+    } else { 
+      message = `--`;
+    }
+  
+    return { message, style };
+  }
+  
+  
+
+
+ // Assuming this function is inside the ListTimeOffValidationComponent class
+ getDifferenceInDays(startDate: string, endDate: string, requestStatus: string): { message: string, style: any } {
+  const today = new Date();
+  const start = new Date(startDate);
+  const end = new Date(endDate);
+  let message = '';
+  let style: any = {};
+
+  switch (requestStatus) {
+    case 'PENDING':
+      if (today > start) {
+        message = 'Validation passée';
+        style = {
+          color: 'orange',
+          'font-weight': 'bold',
+        };
+      } else {
+        message = 'Validation en cours';
+        style = {
+          color: 'grey',
+          'font-weight': 'bold',
+        };
+      }
+      break;
+
+    case 'VALIDATED':
+      if (today < start) {
+        const timeDiffBeforeStart = Math.abs(start.getTime() - today.getTime());
+        const diffDaysBeforeStart = Math.ceil(timeDiffBeforeStart / (1000 * 3600 * 24));
+        message = `Congé validé, il reste ${diffDaysBeforeStart} jours`;
+        style = {
+          color: 'green',
+          'font-weight': 'bold',
+        };
+      } else if (today >= start && today <= end) {
+        const timeDiffBetweenDates = Math.abs(end.getTime() - today.getTime());
+        const diffDaysBetweenDates = Math.ceil(timeDiffBetweenDates / (1000 * 3600 * 24));
+        message = `Employee en congé, il reste ${diffDaysBetweenDates} jours`;
+        style = {
+          color: 'green',
+          'font-weight': 'bold',
+        };
+      } else {
+        message = 'Congé terminé';
+        style = {
+          color: 'blue',
+          'font-weight': 'bold',
+        };
+      }
+      break;
+
+    case 'REJECTED':
+      message = 'Congé refusé';
+      style = {
+        color: 'red',
+        'font-weight': 'bold',
+      };
+      break;
+
+    default:
+      message = 'Statut non géré';
+      style = {
+        color: 'gray',
+        'font-weight': 'bold',
+      };
+      break;
+  }
+
+  return { message, style };
+}
+
+  
+
+
+  // Function to get cell style based on conditions
+  getDiffrenceCellStyle(timeOff: TimeOff): any {
+    const currentDate = new Date();
+    const timeOffStartDate = new Date(timeOff.startDate);
+    const timeOffEndDate = new Date(timeOff.endDate);
+  
+    // Reset time components to midnight for comparison
+    currentDate.setHours(0, 0, 0, 0);
+    timeOffStartDate.setHours(0, 0, 0, 0);
+    timeOffEndDate.setHours(0, 0, 0, 0);
+  
+    const isStartDateGreaterThanCurrentDate = timeOffStartDate.getTime() > currentDate.getTime();
+    const isStartDateLessThanCurrentDate = timeOffStartDate.getTime() < currentDate.getTime();
+  
+    const isPendingRequest = timeOff.requestStatus === 'PENDING';
+    const isValidatedRequest = timeOff.requestStatus === 'VALIDATED';
+    const isEnConge = isStartDateLessThanCurrentDate && currentDate.getTime() <= timeOffEndDate.getTime();
+  
+    if (isStartDateGreaterThanCurrentDate && isPendingRequest) {
+      return {
+        'font-weight': 'bold',
+      };
+    }
+  
+    if (isEnConge) {
+      return {
+        color: 'green',
+        'font-weight': 'bold',
+      };
+    }
+  
+    if (isStartDateLessThanCurrentDate && isValidatedRequest) {
+      return {
+        color: 'red',
+        'font-weight': 'bold',
+      };
+    }
+  
+    return {};
+  }
+  
+  
+  /*getDiffrenceCellStyle(row: TimeOff): any {
+    const currentDate = new Date();
+    const timeOffStartDate = new Date(row.startDate);
+    const differenceInDays = parseInt(this.getDifferenceInDays(row.startDate, row), 10);
+    const alertNumberDays = row.leaveTypeAlertNumberDays;
+  
+    if (timeOffStartDate > currentDate && row.requestStatus === 'PENDING') {
+      return {
+        'font-weight': 'bold',
+      };
+    } else if (timeOffStartDate < currentDate && row.requestStatus === 'VALIDATED') {
+      return {
+        color: 'purple',
+        'font-weight': 'bold',
+      };
+    } else if (alertNumberDays !== undefined && differenceInDays <= alertNumberDays && row.requestStatus === 'PENDING') {
+      return {
+        color: 'orange',
+        'font-weight': 'bold',
+      };
+    } else if (differenceInDays <= alertNumberDays && row.requestStatus === 'PENDING') {
+      return {
+        color: 'red',
+        'font-weight': 'bold',
+      };
+    }
+  
+    return {};
+  }*/
+  /*getDifferenceInDays(startDate: Date, timeOff: TimeOff): string {
+    const timeOffStartDate = new Date(startDate);
+    const currentDate = new Date();
+    
+    timeOffStartDate.setHours(0, 0, 0, 0); // Reset time to midnight
+    currentDate.setHours(0, 0, 0, 0); // Reset time to midnight
+    const differenceInTime = timeOffStartDate.getTime() - currentDate.getTime();
+    const differenceInDays = differenceInTime / (1000 * 3600 * 24);
+  
+    if (differenceInDays === 0) {
+      return "Aujourd'hui";
+    } else if (timeOff?.leaveType?.alertNumberDays !== undefined && differenceInDays <= timeOff.leaveType.alertNumberDays) {
+      return `Alert`; // Return "Alert" when the condition is met
+    } else {
+      return `Rest ${Math.ceil(differenceInDays)} jours`;
+    }
+  }*/
+    
+  
+  
+  
+
+
+
 
   getStatusColor(requestStatus: string): { color: string, displayText: string } {
     const STATUS_DATA = {

@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { RequestStatus, TimeOff } from 'app/shared/models/timeOff';
+import { RequestStatus, TimeOfTimeType, TimeOff, TimeOffPeriodType } from 'app/shared/models/timeOff';
 import { TimeOffService } from '../../simpleTimeOff/time-off.service';
 import { ActivatedRoute } from '@angular/router';
 import { Employee, Title } from 'app/shared/models/employee';
@@ -17,6 +17,7 @@ export class ViewTimeOffValidationComponent implements OnInit {
   id: number;
   timeOff: TimeOff;
   employee : Employee;
+  leaveType: LeaveType;
   leaveBalances: Map<LeaveType, number>;
 
   leaveTypeDurations: { leaveType: string, totalDuration: number }[] = [];
@@ -42,10 +43,14 @@ export class ViewTimeOffValidationComponent implements OnInit {
   totalDurationUnpaidLeaveConsumed: number;
 
   
+   HALF_DAY = TimeOffPeriodType.HALF_DAY;
+   QUARTER_DAY = TimeOffPeriodType.QUARTER_DAY;
 
+  
   constructor(
     private timeOffService: TimeOffValidationService,
     private leaveTypeService : LeaveTypeService,
+    
     private route: ActivatedRoute,
    ) { }
 
@@ -95,12 +100,16 @@ export class ViewTimeOffValidationComponent implements OnInit {
       );
     }
     
+
+   
+    
  
   getTimeOffById(): void {
     this.timeOffService.getItem(this.id).subscribe((dataView: any) => {
       this.timeOff = dataView;
       console.log("timeOff", this.timeOff);
       console.log("timeOfffffffffffffffff", this.timeOff.employee.id);
+      console.log("leaveTypeeeeeeeeeeee", this.timeOff.leaveType.id);
       console.log("justificationDoc", this.timeOff.justificationDoc);
       this.getTotalDurationSpecialPaidLeaveByLeaveTypeAndEmployeeId();
       this.getTotalDurationSicknessLeaveByLeaveTypeAndEmployeeId();
@@ -307,6 +316,26 @@ export class ViewTimeOffValidationComponent implements OnInit {
     [RequestStatus.PENDING]: 'En cours',
    
   };
+
+  timeOffPeriodTypeMap = {
+    [TimeOffPeriodType.QUARTER_DAY]:'Quart de jour',
+    [TimeOffPeriodType.HALF_DAY]:'Demi journée',
+    [TimeOffPeriodType.FULL_DAY]:'Jours'
+    
+  };
+
+  
+  timeOfTimeTypeMap = {
+    [TimeOfTimeType.MORNING]:'Matin',
+    [TimeOfTimeType.AFTERNOON]:'Aprés midi'
+    
+  };
+
+
+  isHalfDayOrQuarterDay(timeOffPeriodType: TimeOffPeriodType): boolean {
+    return timeOffPeriodType === TimeOffPeriodType.HALF_DAY || timeOffPeriodType === TimeOffPeriodType.QUARTER_DAY;
+  }
+  
 
 }
 

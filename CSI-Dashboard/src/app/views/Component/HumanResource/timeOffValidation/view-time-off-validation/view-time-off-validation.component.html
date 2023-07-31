@@ -117,16 +117,35 @@
       <div class="flex-container">
         <div class="flex-item">
           <mat-icon color="primary" class="mr-16" >event</mat-icon>
+          <strong style="padding-right: 10px;">Type de congé : </strong>{{ timeOff.leaveType.name}}
+
+        
+          <mat-icon color="primary" class="mr-16" style="padding-left: 100px;">event</mat-icon>
+          <strong style="padding-right: 10px;">Période à prendre : </strong>{{ timeOffPeriodTypeMap[timeOff.timeOffPeriodType] }}
+          
+          <ng-container *ngIf="isHalfDayOrQuarterDay(timeOff.timeOffPeriodType)">
+            <mat-icon color="primary" class="mr-16" style="padding-left: 100px;">event</mat-icon>
+            <strong style="padding-right: 10px;">Quand?: </strong>
+            {{ timeOfTimeTypeMap[timeOff.timeOfTimeType] }}
+          </ng-container>
+          
+
+       </div>
+
+
+       <div class="flex-item">
+        <mat-icon color="primary" class="mr-16" >event</mat-icon>
           <strong style="padding-right: 10px;">Date de début : </strong>{{ timeOff.startDate | date: 'dd/MM/yyyy' }}
         
-          <mat-icon color="primary" class="mr-16" style="padding-left: 150px;">event</mat-icon>
-          <strong style="padding-right: 10px;">Date de fin : </strong>{{ timeOff.endDate | date: 'dd/MM/yyyy'}}
-       
-          <mat-icon color="primary" class="mr-16" style="padding-left: 150px;">date_range</mat-icon>
-          <strong style="padding-right: 10px;">Période de congé : </strong>{{ timeOff.timeOffPeriod }}
-          <ng-container *ngIf="timeOff.timeOffPeriod=== 1; else plural">jour</ng-container>
-          <ng-template #plural>jours</ng-template>
-       </div>
+        <mat-icon color="primary" class="mr-16" style="padding-left: 150px;">event</mat-icon>
+        <strong style="padding-right: 10px;">Date de fin : </strong>{{ timeOff.endDate | date: 'dd/MM/yyyy'}}
+     
+        <mat-icon color="primary" class="mr-16" style="padding-left: 150px;">date_range</mat-icon>
+        <strong style="padding-right: 10px;">Période de congé : </strong>{{ timeOff.timeOffPeriod }}
+        <ng-container *ngIf="timeOff.timeOffPeriod=== 1; else plural">jour</ng-container>
+        <ng-template #plural>jours</ng-template>
+
+     </div>
 
         <div class="flex-item">
           <mat-icon color="primary" class="mr-16">date_range</mat-icon>

@@ -11,6 +11,7 @@ export class ExpenseReport  {
     createDate?: Date;
     comment?: string;
     employee?:Employee;
+    justificationDoc?: string;
     
 }
 

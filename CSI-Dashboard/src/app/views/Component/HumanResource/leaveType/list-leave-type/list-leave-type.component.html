@@ -123,6 +123,22 @@
                 <mat-cell *matCellDef="let row" data-label="duration">{{row.duration}}</mat-cell>
             </ng-container>
 
+            <ng-container matColumnDef="alertNumberDays">
+              <mat-header-cell *matHeaderCellDef mat-sort-header>
+                <div class="column-header">
+                  <div class="column-name">
+                    <span class="centered-text">Alert</span>
+                  </div>
+                  <div class="filter-input">
+                    <mat-form-field>
+                      <input matInput (input)="applyFilterr($event, 'alertNumberDays')" placeholder="Filtrer">
+                    </mat-form-field>
+                  </div>
+                </div>
+              </mat-header-cell>
+              <mat-cell *matCellDef="let row" data-label="alertNumberDays">{{row.alertNumberDays}}</mat-cell>
+          </ng-container>
+
           <ng-container matColumnDef="timeOffType">
             <mat-header-cell *matHeaderCellDef mat-sort-header>
               <div class="column-header">
